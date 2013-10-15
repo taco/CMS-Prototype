@@ -1,0 +1,211 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 8, ../sass/screen.scss */
+.layout {
+  padding-bottom: 20px;
+  padding-top: 0px;
+}
+
+/* line 13, ../sass/screen.scss */
+.content {
+  background: #DDD;
+  font-family: "helvetica";
+  min-height: 14px;
+  outline-color: transparent;
+  outline-style: solid;
+  outline-width: 2px;
+}
+/* line 21, ../sass/screen.scss */
+.content:hover {
+  outline-color: blue;
+}
+
+/* line 27, ../sass/screen.scss */
+p {
+  font-weight: normal;
+  font-size: 2em;
+  text-align: center;
+  line-height: 2em;
+}
+
+/*
+  Simple Grid
+  Learn More - http://dallasbass.com/simple-grid-a-lightweight-responsive-css-grid/
+  Project Page - http://thisisdallas.github.com/Simple-Grid/
+  Author - Dallas Bass
+  Site - dallasbass.com
+*/
+/* line 43, ../sass/screen.scss */
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 49, ../sass/screen.scss */
+body {
+  margin: 0px;
+}
+
+/* line 53, ../sass/screen.scss */
+[class*='col-'] {
+  float: left;
+}
+/* line 57, ../sass/screen.scss */
+[class*='col-'] .content {
+  padding-right: 20px;
+}
+
+/* line 62, ../sass/screen.scss */
+[class*='col-']:last-of-type {
+  padding-right: 0px;
+}
+
+/* line 66, ../sass/screen.scss */
+.grid {
+  width: 100%;
+  max-width: 1140px;
+  min-width: 755px;
+  margin: 0 auto -32px;
+  overflow: hidden;
+}
+
+/* line 74, ../sass/screen.scss */
+.grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* line 80, ../sass/screen.scss */
+.grid-pad {
+  padding-left: 20px;
+}
+
+/* line 84, ../sass/screen.scss */
+.grid-pad > [class*='col-']:last-of-type {
+  padding-right: 20px;
+}
+
+/* line 88, ../sass/screen.scss */
+.push-right {
+  float: right;
+}
+
+/* Content Columns */
+/* line 94, ../sass/screen.scss */
+.col-1-1 {
+  width: 100%;
+}
+
+/* line 97, ../sass/screen.scss */
+.col-2-3, .col-8-12 {
+  width: 66.66%;
+}
+
+/* line 101, ../sass/screen.scss */
+.col-1-2, .col-6-12 {
+  width: 50%;
+}
+
+/* line 105, ../sass/screen.scss */
+.col-1-3, .col-4-12 {
+  width: 33.33%;
+}
+
+/* line 109, ../sass/screen.scss */
+.col-1-4, .col-3-12 {
+  width: 25%;
+}
+
+/* line 113, ../sass/screen.scss */
+.col-1-5 {
+  width: 20%;
+}
+
+/* line 117, ../sass/screen.scss */
+.col-1-6, .col-2-12 {
+  width: 16.667%;
+}
+
+/* line 121, ../sass/screen.scss */
+.col-1-7 {
+  width: 14.28%;
+}
+
+/* line 125, ../sass/screen.scss */
+.col-1-8 {
+  width: 12.5%;
+}
+
+/* line 129, ../sass/screen.scss */
+.col-1-9 {
+  width: 11.1%;
+}
+
+/* line 133, ../sass/screen.scss */
+.col-1-10 {
+  width: 10%;
+}
+
+/* line 137, ../sass/screen.scss */
+.col-1-11 {
+  width: 9.09%;
+}
+
+/* line 141, ../sass/screen.scss */
+.col-1-12 {
+  width: 8.33%;
+}
+
+/* Layout Columns */
+/* line 147, ../sass/screen.scss */
+.col-11-12 {
+  width: 91.66%;
+}
+
+/* line 151, ../sass/screen.scss */
+.col-10-12 {
+  width: 83.333%;
+}
+
+/* line 155, ../sass/screen.scss */
+.col-9-12 {
+  width: 75%;
+}
+
+/* line 159, ../sass/screen.scss */
+.col-5-12 {
+  width: 41.66%;
+}
+
+/* line 163, ../sass/screen.scss */
+.col-7-12 {
+  width: 58.33%;
+}
+
+@media handheld, only screen and (max-width: 767px) {
+  /* line 170, ../sass/screen.scss */
+  .grid {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  /* line 179, ../sass/screen.scss */
+  [class*='col-'] {
+    width: auto;
+    float: none;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
