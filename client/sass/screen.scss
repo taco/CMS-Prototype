@@ -4,32 +4,109 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 //@import "compass/reset";
+@import "compass/css3";
+
+
+
+
+.widgets {
+    border: 1px solid black;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    .widget {
+        border: 1px solid black;
+        background: white;
+        display: block;
+        height: 50px;
+        margin: 10px;
+        text-align: center;
+        width: 50px;
+
+        &.draggable {
+            border-style: dashed;;
+        }
+    }
+
+    &:after {
+        content: "";
+        clear: both;
+    }
+}
+
+
+
+.droppable {
+    .block {
+        border-color: rgba(0, 117, 218, 0.8) !important;
+    }
+
+    .grid {
+        outline: 1px solid rgba(0, 117, 218, 0.8);
+    }
+}
+
 
 .layout {
-    padding-bottom: 20px;
-    padding-top: 0px;
+    //border: 1px solid transparent;
+    //padding-bottom: 20px;
+    //padding-top: 20px;
+    margin: 20px;
+
+    [contenteditable="true"]:active,
+    [contenteditable="true"]:focus {
+        border-color: transparent;
+        outline: none;
+    }
 }
 
 .content {
-    background: #DDD;
-    font-family: "helvetica";
-    min-height: 14px;
-    outline-color: transparent;
-    outline-style: solid;
-    outline-width: 2px;
+    //background: rgba(0,0,0,0.1);    
+    
 
-    &:hover {
-        outline-color: blue;
+}
+
+
+.grid {
+    .block {
+        
+        min-height: 14px;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 1px;
+        padding: 5px;
+        overflow: hidden;
+        word-wrap: break-word;
+        @include transition(border-color 0.3s);
+
+        &:hover {
+            border-color: #999;
+            //z-index: 10;
+        }
     }
 
+    .content {
+        *:first-child {
+            margin-top: 0;
+        }
+
+        h1, h2, h3, p {
+            font-family: "helvetica";
+        }
+
+        h1 {
+            border-bottom: 1px solid #CCC;
+            color: #444;
+        }
+
+        p {
+
+        }        
+    }    
 }
 
-p {
-    font-weight: normal;
-    font-size: 2em;
-    text-align: center;
-    line-height: 2em;
-}
+
 
 
 /*
@@ -67,8 +144,7 @@ body {
     width: 100%;
     max-width: 1140px;
     min-width: 755px;
-    margin: 0 auto -32px;
-    overflow: hidden;
+    margin: 0 auto;
 }
 
 .grid:after {
@@ -78,11 +154,11 @@ body {
 }
 
 .grid-pad {
-    padding-left: 20px;
+    //padding-left: 20px;
 }
 
 .grid-pad > [class*='col-']:last-of-type {
-    padding-right: 20px;
+    //padding-right: 20px;
 }
 
 .push-right {
@@ -181,8 +257,8 @@ body {
         float: none;
         margin-left: 0px;
         margin-right: 0px;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 0px;
+        margin-bottom: 0px;
         padding-left: 20px;
         padding-right: 20px;
     }

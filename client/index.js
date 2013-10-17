@@ -1,27 +1,28 @@
-MeteorMixin = {
-  componentWillMount: function() {
-    var component = this;
-    component._meteorComputation = Deps.autorun(function() {
-      component.setState(component.getMeteorState());
-    });
-  },
 
-  componentWillUnmount: function() {
-    this._meteorComputation.stop();
-    delete this._meteorComputation;
-  }
-};
 
-if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to Cms.";
-  };
+Router.configure({
+  layout: 'layout'
+});
 
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
-    }
-  });
+Router.map(function() { 
+  this.route('home', {path: '/'});
+  this.route('page');
+});
+
+
+$(document).ready(function () {
+
+
+
+    //$('.widget'));
+
+    //$('.widget').mozuWidget();
+
+     //$('.layout').mozuGrid();
+});
+
+
+doIt = function() {
+    $('.widget').mozuWidget();
+    $('iframe')[0].contentWindow.$('.layout').mozuGrid();
 }

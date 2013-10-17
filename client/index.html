@@ -1,51 +1,52 @@
 <head>
-  <title>Cms</title>
-  <script src="http://fb.me/react-0.4.1.js"></script>
+  <title>Cms1</title>
 </head>
 
 <body>
-    <div style="width: 960px; border: 1px solid black;">
     
-    {{> grid}}
-    
-    </div>
-
-  {{> hello}}
+      
+ 
 </body>
 
-<template name="grid">
-    
-    <div class="layout">
-        
-        <div class="grid grid-pad">
-            <div class="col-1-1">
-                <div class="content">
-                    <p>col-1-1</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="grid grid-pad">
+    <template name="layout"> 
+      <aside>
+        <!-- render to the sidebar yield -->
+        {{yield 'sidebar'}}
+      </aside>
 
-            <div class="col-1-2">
-                <div class="content">
-                    <p>col-1-2</p>
-                </div>
-            </div>
+      <nav>
+        <ul>
+          <!-- static content here like nav links -->
+        </ul>
+      </nav>
 
-            <div class="col-1-2">
-                <div class="content">
-                    <p>col-1-2</p>
-                </div>
-            </div>
-        </div>
+      <!-- the main template will be rendered here -->
+      {{yield}}
+
+      <footer>
+        <!-- render to the footer yield -->
+        {{yield 'footer'}}
+      </footer>
+    </template> 
+
+
+<template name="widgets">
+
+    <div class="widgets">
+
+        <div class="widget">Widget 1</div>
+        <div class="widget">Widget 2</div>
+        <div class="widget">Widget 3</div>
 
     </div>
 
 </template>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+
+
+<template name="home">
+  <iframe height="750" width="1000" src="/page"></iframe>
+
+  {{> widgets}}
 </template>
