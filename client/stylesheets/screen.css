@@ -2,14 +2,14 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-/* line 12, ../sass/screen.scss */
+/* line 11, ../sass/screen.scss */
 .widgets {
   border: 1px solid black;
   position: fixed;
   right: 0;
   top: 0;
 }
-/* line 18, ../sass/screen.scss */
+/* line 17, ../sass/screen.scss */
 .widgets .widget {
   border: 1px solid black;
   background: white;
@@ -19,19 +19,20 @@
   text-align: center;
   width: 50px;
 }
-/* line 27, ../sass/screen.scss */
+/* line 26, ../sass/screen.scss */
 .widgets .widget.draggable {
   border-style: dashed;
 }
-/* line 32, ../sass/screen.scss */
+/* line 31, ../sass/screen.scss */
 .widgets:after {
   content: "";
   clear: both;
 }
 
-/* line 38, ../sass/screen.scss */
+/* line 37, ../sass/screen.scss */
 .dd-helper {
   background: black;
+  position: absolute;
   height: 50px;
   width: 50px;
 }
@@ -43,11 +44,11 @@
 
 /* line 49, ../sass/screen.scss */
 .droppable .block {
-  border-color: rgba(0, 117, 218, 0.8) !important;
+  border-color: rgba(0, 117, 218, 0.2) !important;
 }
 /* line 53, ../sass/screen.scss */
 .droppable .grid {
-  outline: 1px solid rgba(0, 117, 218, 0.8);
+  outline: 1px solid rgba(0, 117, 218, 0.2);
 }
 
 /* line 58, ../sass/screen.scss */
@@ -72,7 +73,7 @@
 
 /* line 79, ../sass/screen.scss */
 .hint-bar {
-  background: red;
+  background: #0075da;
   position: absolute;
   z-index: 100;
 }
@@ -116,6 +117,13 @@
   border-bottom: 1px solid #CCC;
   color: #444;
 }
+/* line 125, ../sass/screen.scss */
+.grid .content.image img {
+  display: block;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
 
 /*
   Simple Grid
@@ -124,33 +132,33 @@
   Author - Dallas Bass
   Site - dallasbass.com
 */
-/* line 138, ../sass/screen.scss */
+/* line 145, ../sass/screen.scss */
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 144, ../sass/screen.scss */
+/* line 151, ../sass/screen.scss */
 body {
   margin: 0px;
 }
 
-/* line 148, ../sass/screen.scss */
+/* line 155, ../sass/screen.scss */
 [class*='col-'] {
   float: left;
 }
-/* line 152, ../sass/screen.scss */
+/* line 159, ../sass/screen.scss */
 [class*='col-'] .content {
   padding-right: 20px;
 }
 
-/* line 157, ../sass/screen.scss */
+/* line 164, ../sass/screen.scss */
 [class*='col-']:last-of-type {
   padding-right: 0px;
 }
 
-/* line 161, ../sass/screen.scss */
+/* line 168, ../sass/screen.scss */
 .grid {
   width: 100%;
   max-width: 1140px;
@@ -158,112 +166,112 @@ body {
   margin: 0 auto;
 }
 
-/* line 168, ../sass/screen.scss */
+/* line 175, ../sass/screen.scss */
 .grid:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 182, ../sass/screen.scss */
+/* line 189, ../sass/screen.scss */
 .push-right {
   float: right;
 }
 
 /* Content Columns */
-/* line 188, ../sass/screen.scss */
+/* line 195, ../sass/screen.scss */
 .col-1-1 {
   width: 100%;
 }
 
-/* line 191, ../sass/screen.scss */
+/* line 198, ../sass/screen.scss */
 .col-2-3, .col-8-12 {
   width: 66.66%;
 }
 
-/* line 195, ../sass/screen.scss */
+/* line 202, ../sass/screen.scss */
 .col-1-2, .col-6-12 {
   width: 50%;
 }
 
-/* line 199, ../sass/screen.scss */
+/* line 206, ../sass/screen.scss */
 .col-1-3, .col-4-12 {
   width: 33.33%;
 }
 
-/* line 203, ../sass/screen.scss */
+/* line 210, ../sass/screen.scss */
 .col-1-4, .col-3-12 {
   width: 25%;
 }
 
-/* line 207, ../sass/screen.scss */
+/* line 214, ../sass/screen.scss */
 .col-1-5 {
   width: 20%;
 }
 
-/* line 211, ../sass/screen.scss */
+/* line 218, ../sass/screen.scss */
 .col-1-6, .col-2-12 {
   width: 16.667%;
 }
 
-/* line 215, ../sass/screen.scss */
+/* line 222, ../sass/screen.scss */
 .col-1-7 {
   width: 14.28%;
 }
 
-/* line 219, ../sass/screen.scss */
+/* line 226, ../sass/screen.scss */
 .col-1-8 {
   width: 12.5%;
 }
 
-/* line 223, ../sass/screen.scss */
+/* line 230, ../sass/screen.scss */
 .col-1-9 {
   width: 11.1%;
 }
 
-/* line 227, ../sass/screen.scss */
+/* line 234, ../sass/screen.scss */
 .col-1-10 {
   width: 10%;
 }
 
-/* line 231, ../sass/screen.scss */
+/* line 238, ../sass/screen.scss */
 .col-1-11 {
   width: 9.09%;
 }
 
-/* line 235, ../sass/screen.scss */
+/* line 242, ../sass/screen.scss */
 .col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 241, ../sass/screen.scss */
+/* line 248, ../sass/screen.scss */
 .col-11-12 {
   width: 91.66%;
 }
 
-/* line 245, ../sass/screen.scss */
+/* line 252, ../sass/screen.scss */
 .col-10-12 {
   width: 83.333%;
 }
 
-/* line 249, ../sass/screen.scss */
+/* line 256, ../sass/screen.scss */
 .col-9-12 {
   width: 75%;
 }
 
-/* line 253, ../sass/screen.scss */
+/* line 260, ../sass/screen.scss */
 .col-5-12 {
   width: 41.66%;
 }
 
-/* line 257, ../sass/screen.scss */
+/* line 264, ../sass/screen.scss */
 .col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 264, ../sass/screen.scss */
+  /* line 271, ../sass/screen.scss */
   .grid {
     width: 100%;
     min-width: 0;
@@ -273,7 +281,7 @@ body {
     padding-right: 0px;
   }
 
-  /* line 273, ../sass/screen.scss */
+  /* line 280, ../sass/screen.scss */
   [class*='col-'] {
     width: auto;
     float: none;
