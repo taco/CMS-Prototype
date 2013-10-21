@@ -82,6 +82,12 @@ $hint-color: rgb(0, 117, 218);
     z-index: 100;
 }
 
+.hint-message {
+    background: $hint-color;
+    position: absolute;
+    z-index: 101;
+}
+
 .grid {
 
     outline: 1px solid transparent;

@@ -6,7 +6,7 @@
     editor = {
         init: function () {
             $tmp = $('<div class="tmp">').appendTo('body');
-            this.$hintBar = $('<div class="hint-bar">').appendTo('body');
+            this.$hintBar = $('<div class="hint-bar"><div class="hint-message"></div></div>').appendTo('body');
             $doc.on({
                 mousemove: $.proxy(editor._onMousemove, editor)
             });
@@ -54,19 +54,21 @@
             //this._target.onMousemove(x, y);
             data = this._target.hint(x, y);
 
-            this.hint(this._target.element, data)
+            this.hint(data)
         },
 
-        hint: function (element, data) {
+        hint: function (data) {
             var height = 3,
                 width = 3,
                 x = data.left,
                 y = data.top;
 
             // If showing the same hint in the same location, abort hinting
-            if (this._hintElement === element && this._hintQuadrant === data.quadrant) return;
+            if (this._hintElement === data.target && this._hintQuadrant === data.quadrant) return;
 
-            this._hintElement = element;
+            //if (data.row) this._hintElement = data;row
+
+            this._hintElement = data.target
             this._hintQuadrant = data.quadrant;
 
             switch (data.quadrant) {
@@ -94,7 +96,7 @@
                 top: y,
                 height: height,
                 width: width
-            });
+            }).find('.hint-message').html(data.message);
 
         }
     };
@@ -110,7 +112,7 @@
             console.log('init grid');
 
             this.rows = this.element.find('.grid').mozuRow({
-                grid: this.element
+                grid: this
             });
 
             this.element.on({
@@ -148,8 +150,27 @@
         _create: function () {
             console.log('init row');
             this.cols = this.element.find('[class*="col-"]').mozuCol({
-                row: this.element
+                row: this
             });
+        },
+        initHint: function () {
+            this.offset = this.element.offset();
+            this.offset.width = this.element.width();
+            this.offset.height = this.element.height();
+            this.offset.target = this.element;
+        },
+        hint: function (x, y) {
+            x -= this.offset.left;
+            y -= this.offset.top;
+
+
+            this.offset.message = 'row';
+            this.offset.quadrant = (y <= 10)
+                                    ? 'top'
+                                    : (y >= this.offset.height - 10)
+                                        ? 'bottom'
+                                        : null;
+            return this.offset;
         }
     });
 
@@ -160,7 +181,7 @@
         _create: function () {
             console.log('init col');
             this.blocks = this.element.find('.block').mozuBlock({
-                col: this.element
+                col: this
             });
 
             this.element.droppable({
@@ -168,14 +189,19 @@
                 out: $.proxy(this._onOut, this),
                 drop: $.proxy(this._onDrop, this)
             });
+
+            this.row = this.options.row;
         },
 
          _onOver: function (event, ui) {
             editor.target(this);
 
+            this.row.initHint();
+
             this.offset = this.element.offset();
             this.offset.width = this.element.width();
             this.offset.height = this.element.height();
+            this.offset.target = this.element;
 
             console.log('over col');
          },
@@ -195,7 +221,17 @@
          },
 
          hint: function (x, y) {
+            var rowOffset = this.row.hint(x, y);
+
+            //  Prioritize ROW hinting over COL hinting
+            if (rowOffset.quadrant) return rowOffset;
+
             this.offset.quadrant = this._getQuadrant(x, y);
+
+            this.offset.message = (this.offset.quadrant === 'left' || this.offset.quadrant === 'right')
+                                    ? 'column'
+                                    : 'insert';
+
             return this.offset;
          },
 
