@@ -29,27 +29,63 @@
   clear: both;
 }
 
-/* line 41, ../sass/screen.scss */
+/* line 38, ../sass/screen.scss */
+.dd-helper {
+  background: black;
+  height: 50px;
+  width: 50px;
+}
+
+/* line 44, ../sass/screen.scss */
+.bar {
+  background: red;
+}
+
+/* line 49, ../sass/screen.scss */
 .droppable .block {
   border-color: rgba(0, 117, 218, 0.8) !important;
 }
-/* line 45, ../sass/screen.scss */
+/* line 53, ../sass/screen.scss */
 .droppable .grid {
   outline: 1px solid rgba(0, 117, 218, 0.8);
 }
 
-/* line 51, ../sass/screen.scss */
+/* line 58, ../sass/screen.scss */
+.tmp {
+  background: black;
+  color: white;
+  padding: 5px;
+  position: absolute;
+  z-index: 100;
+}
+
+/* line 66, ../sass/screen.scss */
 .layout {
   margin: 20px;
 }
-/* line 58, ../sass/screen.scss */
+/* line 73, ../sass/screen.scss */
 .layout [contenteditable="true"]:active,
 .layout [contenteditable="true"]:focus {
   border-color: transparent;
   outline: none;
 }
 
-/* line 72, ../sass/screen.scss */
+/* line 79, ../sass/screen.scss */
+.hint-bar {
+  background: red;
+  position: absolute;
+  z-index: 100;
+}
+
+/* line 85, ../sass/screen.scss */
+.grid {
+  outline: 1px solid transparent;
+  -webkit-transition: outline-color 0.3s;
+  -moz-transition: outline-color 0.3s;
+  -o-transition: outline-color 0.3s;
+  transition: outline-color 0.3s;
+}
+/* line 90, ../sass/screen.scss */
 .grid .block {
   min-height: 14px;
   border-color: transparent;
@@ -63,19 +99,19 @@
   -o-transition: border-color 0.3s;
   transition: border-color 0.3s;
 }
-/* line 83, ../sass/screen.scss */
+/* line 101, ../sass/screen.scss */
 .grid .block:hover {
   border-color: #999;
 }
-/* line 90, ../sass/screen.scss */
+/* line 108, ../sass/screen.scss */
 .grid .content *:first-child {
   margin-top: 0;
 }
-/* line 94, ../sass/screen.scss */
+/* line 112, ../sass/screen.scss */
 .grid .content h1, .grid .content h2, .grid .content h3, .grid .content p {
   font-family: "helvetica";
 }
-/* line 98, ../sass/screen.scss */
+/* line 116, ../sass/screen.scss */
 .grid .content h1 {
   border-bottom: 1px solid #CCC;
   color: #444;
@@ -88,33 +124,33 @@
   Author - Dallas Bass
   Site - dallasbass.com
 */
-/* line 120, ../sass/screen.scss */
+/* line 138, ../sass/screen.scss */
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 126, ../sass/screen.scss */
+/* line 144, ../sass/screen.scss */
 body {
   margin: 0px;
 }
 
-/* line 130, ../sass/screen.scss */
+/* line 148, ../sass/screen.scss */
 [class*='col-'] {
   float: left;
 }
-/* line 134, ../sass/screen.scss */
+/* line 152, ../sass/screen.scss */
 [class*='col-'] .content {
   padding-right: 20px;
 }
 
-/* line 139, ../sass/screen.scss */
+/* line 157, ../sass/screen.scss */
 [class*='col-']:last-of-type {
   padding-right: 0px;
 }
 
-/* line 143, ../sass/screen.scss */
+/* line 161, ../sass/screen.scss */
 .grid {
   width: 100%;
   max-width: 1140px;
@@ -122,112 +158,112 @@ body {
   margin: 0 auto;
 }
 
-/* line 150, ../sass/screen.scss */
+/* line 168, ../sass/screen.scss */
 .grid:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 164, ../sass/screen.scss */
+/* line 182, ../sass/screen.scss */
 .push-right {
   float: right;
 }
 
 /* Content Columns */
-/* line 170, ../sass/screen.scss */
+/* line 188, ../sass/screen.scss */
 .col-1-1 {
   width: 100%;
 }
 
-/* line 173, ../sass/screen.scss */
+/* line 191, ../sass/screen.scss */
 .col-2-3, .col-8-12 {
   width: 66.66%;
 }
 
-/* line 177, ../sass/screen.scss */
+/* line 195, ../sass/screen.scss */
 .col-1-2, .col-6-12 {
   width: 50%;
 }
 
-/* line 181, ../sass/screen.scss */
+/* line 199, ../sass/screen.scss */
 .col-1-3, .col-4-12 {
   width: 33.33%;
 }
 
-/* line 185, ../sass/screen.scss */
+/* line 203, ../sass/screen.scss */
 .col-1-4, .col-3-12 {
   width: 25%;
 }
 
-/* line 189, ../sass/screen.scss */
+/* line 207, ../sass/screen.scss */
 .col-1-5 {
   width: 20%;
 }
 
-/* line 193, ../sass/screen.scss */
+/* line 211, ../sass/screen.scss */
 .col-1-6, .col-2-12 {
   width: 16.667%;
 }
 
-/* line 197, ../sass/screen.scss */
+/* line 215, ../sass/screen.scss */
 .col-1-7 {
   width: 14.28%;
 }
 
-/* line 201, ../sass/screen.scss */
+/* line 219, ../sass/screen.scss */
 .col-1-8 {
   width: 12.5%;
 }
 
-/* line 205, ../sass/screen.scss */
+/* line 223, ../sass/screen.scss */
 .col-1-9 {
   width: 11.1%;
 }
 
-/* line 209, ../sass/screen.scss */
+/* line 227, ../sass/screen.scss */
 .col-1-10 {
   width: 10%;
 }
 
-/* line 213, ../sass/screen.scss */
+/* line 231, ../sass/screen.scss */
 .col-1-11 {
   width: 9.09%;
 }
 
-/* line 217, ../sass/screen.scss */
+/* line 235, ../sass/screen.scss */
 .col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 223, ../sass/screen.scss */
+/* line 241, ../sass/screen.scss */
 .col-11-12 {
   width: 91.66%;
 }
 
-/* line 227, ../sass/screen.scss */
+/* line 245, ../sass/screen.scss */
 .col-10-12 {
   width: 83.333%;
 }
 
-/* line 231, ../sass/screen.scss */
+/* line 249, ../sass/screen.scss */
 .col-9-12 {
   width: 75%;
 }
 
-/* line 235, ../sass/screen.scss */
+/* line 253, ../sass/screen.scss */
 .col-5-12 {
   width: 41.66%;
 }
 
-/* line 239, ../sass/screen.scss */
+/* line 257, ../sass/screen.scss */
 .col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 246, ../sass/screen.scss */
+  /* line 264, ../sass/screen.scss */
   .grid {
     width: 100%;
     min-width: 0;
@@ -237,7 +273,7 @@ body {
     padding-right: 0px;
   }
 
-  /* line 255, ../sass/screen.scss */
+  /* line 273, ../sass/screen.scss */
   [class*='col-'] {
     width: auto;
     float: none;

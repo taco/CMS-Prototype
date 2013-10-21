@@ -35,7 +35,15 @@
     }
 }
 
+.dd-helper {
+    background: black;
+    height: 50px;
+    width: 50px;
+}
 
+.bar {
+    background: red;
+}
 
 .droppable {
     .block {
@@ -47,6 +55,13 @@
     }
 }
 
+.tmp {
+    background: black;
+    color: white;
+    padding: 5px;
+    position: absolute;
+    z-index: 100;
+}
 
 .layout {
     //border: 1px solid transparent;
@@ -61,14 +76,17 @@
     }
 }
 
-.content {
-    //background: rgba(0,0,0,0.1);    
-    
-
+.hint-bar {
+    background: red;
+    position: absolute;
+    z-index: 100;
 }
 
-
 .grid {
+
+    outline: 1px solid transparent;
+    @include transition(outline-color 0.3s);
+
     .block {
         
         min-height: 14px;
