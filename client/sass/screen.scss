@@ -85,6 +85,8 @@ $hint-color: rgb(0, 117, 218);
 
 .hint-message {
     background: $hint-color;
+    color: white;
+    padding: 5px;
     position: absolute;
     z-index: 101;
 }
@@ -92,10 +94,12 @@ $hint-color: rgb(0, 117, 218);
 .grid {
 
     outline: 1px solid transparent;
+    outline-offset: -1px;
     @include transition(outline-color 0.3s);
 
     .block {
         outline: 1px solid transparent;
+        outline-offset: -1px;
 
         @include transition(outline-color 0.3s);
         min-height: 14px;

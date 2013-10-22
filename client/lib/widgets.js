@@ -1,7 +1,14 @@
 (function($, win, doc) {
     var $doc = $(doc),
         $tmp,
+        cfg,
         editor;
+
+    cfg = {
+        rowHintMargin: 15,
+        colHintMargin: 15,
+        colHintRatio: 0.25
+    };
 
     editor = {
         _dragging: false,
@@ -15,24 +22,28 @@
                 mousemove: $.proxy(editor._onMousemove, editor)
             });
         },
+
         dragging: function(val) {
             if (typeof val !== 'undefined') this._dragging = val;
             return this._dragging;
         },
+
         startDrag: function() {
             $('.layout').addClass('droppable');
             this.dragging(true);
-            console.log('start drag');
         },
+
         stopDrag: function() {
             $('.layout').removeClass('droppable');
             this.dragging(false);
-            console.log('stop drag');
+            this.$hintBar.hide();
         },
+
         target: function(target) {
             if (!target.hint) return;
             this._target = target;
         },
+
         clearTarget: function(target) {
 
             // Only clear if a new target has NOT been set up yet
@@ -40,13 +51,14 @@
 
             this._target = null;
         },
+
         _onMousemove: function(e, ui) {
             var x,
                 y,
                 data;
 
             // On track when tragging
-            if (!this.dragging) return;
+            if (!this.dragging()) return;
 
             //  Only fire if tracking a target
             if (!this._target) return;
@@ -95,7 +107,8 @@
                 left: x,
                 top: y,
                 height: height,
-                width: width
+                width: width,
+                display: 'block'
             }).find('.hint-message').html(data.message);
 
         },
@@ -129,11 +142,6 @@
     $.widget('custom.mozuGrid', {
         options: {},
         _create: function() {
-            var me = this;
-            //debugger;
-
-            console.log('init grid');
-
             this.rows = this.element.find('.grid').mozuRow({
                 grid: this
             });
@@ -158,7 +166,7 @@
         },
 
         _onDrop: function(event, ui) {
-
+            editor.stopDrag();
         },
 
         _onMouseover: function(e, ui) {
@@ -171,7 +179,7 @@
             grid: null
         },
         _create: function() {
-            console.log('init row');
+            
             this.cols = this.element.find('[class*="col-"]').mozuCol({
                 row: this
             });
@@ -190,13 +198,25 @@
             this._offset = null;
         },
         hint: function(x, y) {
+
+            this.offset().message = 'row';
+            //this.offset().quadrant = (y <= 10) ? 'top' : (y >= this.offset().height - 10) ? 'bottom' : null;
+            this.offset().quadrant = this.quadrant(x, y);
+            
+
+            return this.offset();
+        },
+        quadrant: function (x, y) {
+            var quadrant = editor.quadrant(x, y, this.offset());
+
             x -= this.offset().left;
             y -= this.offset().top;
 
-
-            this.offset().message = 'row';
-            this.offset().quadrant = (y <= 10) ? 'top' : (y >= this.offset().height - 10) ? 'bottom' : null;
-            return this.offset();
+            if ((quadrant === 'top' || quadrant === 'bottom')
+                    && (y <= cfg.rowHintMargin || y >= this.offset().height - cfg.rowHintMargin)) {
+                return quadrant;
+            }
+            return null;
         }
     });
 
@@ -205,7 +225,6 @@
             row: null
         },
         _create: function() {
-            console.log('init col');
             this.blocks = this.element.find('.block').mozuBlock({
                 col: this
             });
@@ -221,13 +240,11 @@
 
         _onOver: function(event, ui) {
 
-            console.log('over col');
         },
 
         _onOut: function(event, ui) {
             editor.clearTarget(this);
             this._offset = null;
-            console.log('out col');
         },
 
         _onDrop: function(event, ui) {
@@ -269,12 +286,20 @@
         },
 
         quadrant: function (x, y) {
-            var quadrant = editor.quadrant(x, y, this.offset());
+            var quadrant = editor.quadrant(x, y, this.offset()),
+                ratio = Math.round(this.offset().width * cfg.colHintRatio),
+                margin = ratio > cfg.colHintMargin ? ratio : cfg.colHintMargin;
+
+            x -= this.offset().left;
+            y -= this.offset().top;
 
             // Columns can only be inserted on left or right
-            if (quadrant === 'top' || quadrant === 'bottom') return null;
+            if ((quadrant === 'left' || quadrant === 'right')
+                    && (x <= margin || x >= this.offset().width - margin)) {
+                return quadrant;
+            }
 
-            return quadrant;
+            return null;
         }
     });
 
@@ -282,16 +307,15 @@
         options: {
             col: null
         },
-        _create: function() {
-            console.log('init block');
 
+        _create: function() {
             this.col = this.options.col;
 
             this.element.find('.content.html').attr('contenteditable', 'true');
 
             this.element.on({
                 mouseenter: function() {
-                    console.log('mouseenter');
+
                 }
             });
 
@@ -300,12 +324,13 @@
                 out: $.proxy(this._onOut, this)
             });
         },
+
         _onOver: function (e, ui) {
-            console.log('over block');
             this.initHint();
         },
+
         _onOut: function (e, ui) {
-            console.log('out block');
+
         },
 
         offset: function () {
@@ -317,22 +342,35 @@
             }
             return this._offset;
         },
+
         initHint: function () {
             editor.target(this);
             this._offset = null;
             this.col.initHint();
         },
+
         hint: function(x, y) {
             var colOffset = this.col.hint(x, y);
 
             //  Prioritize COL hinting over BLOCK hinting
             if (colOffset.quadrant) return colOffset;
 
-            this.offset().quadrant = editor.quadrant(x, y, this.offset());
+            /* //   Code for FLOAT insertion
+                this.offset().quadrant = editor.quadrant(x, y, this.offset());
 
-            this.offset().message = (this.offset().quadrant === 'top' || this.offset().quadrant === 'bottom')
-                                    ? 'insert'
-                                    : 'float';
+                this.offset().message = (this.offset().quadrant === 'top' || this.offset().quadrant === 'bottom')
+                                        ? 'insert'
+                                        : 'float';
+            */
+           
+
+            this.offset().message = 'insert';
+            y -= this.offset().top;
+
+            //console.log('x', x, 'height/2', Math.round(this.offset().height/2));
+
+            this.offset().quadrant = (y <= this.offset().height / 2) ? 'top' : 'bottom';
+
             return this.offset();
         }
     });
@@ -358,9 +396,6 @@
                     stop: $.proxy(editor.stopDrag, editor),
                     drop: $.proxy(editor.stopDrag, editor)
                 });
-        },
-        print: function() {
-            console.log(this.random);
         }
     });
 
