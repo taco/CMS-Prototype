@@ -47,11 +47,12 @@ $hint-color: rgb(0, 117, 218);
 
 .droppable {
     .block {
-        border-color: transparentize($hint-color, 0.8) !important;
+        //border-color: transparentize($hint-color, 0.8) !important;
+        outline-color: transparentize($hint-color, 0.8) !important;
     }
 
     .grid {
-        outline: 1px solid transparentize($hint-color, 0.8);
+        outline-color: transparentize($hint-color, 0.8);
     }
 }
 
@@ -94,15 +95,17 @@ $hint-color: rgb(0, 117, 218);
     @include transition(outline-color 0.3s);
 
     .block {
-        
+        outline: 1px solid transparent;
+
+        @include transition(outline-color 0.3s);
         min-height: 14px;
-        border-color: transparent;
-        border-style: solid;
-        border-width: 1px;
-        padding: 5px;
+        // border-color: transparent;
+        // border-style: solid;
+        // border-width: 1px;
+        padding: 0;
         overflow: hidden;
         word-wrap: break-word;
-        @include transition(border-color 0.3s);
+        //@include transition(border-color 0.3s);
 
         &:hover {
             border-color: #999;
@@ -111,6 +114,7 @@ $hint-color: rgb(0, 117, 218);
     }
 
     .content {
+        padding: 5px;
         *:first-child {
             margin-top: 0;
         }
