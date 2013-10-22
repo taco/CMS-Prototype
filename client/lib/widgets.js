@@ -287,6 +287,10 @@
             } else {
                 row.element.insertAfter(this.element);
             }
+
+            setTimeout(function () {
+                row.element.find('.dropped-col').removeClass('dropped-col');
+            }, 30);
         },
 
         rebase: function() {
