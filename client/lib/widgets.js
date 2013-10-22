@@ -141,6 +141,44 @@
                 // BOTTOM or LEFT
                 return (yMax * x >= (yMax - y) * xMax) ? 'bottom' : 'left';
             }
+        },
+
+
+        createBlock: function(widgetCfg) {
+            var $block = $('<div class="block"><div class="content"></div></div>');
+
+            // Insert widget content (for now, just doing text)
+            $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
+
+            return $block.mozuBlock().data('mozuBlock');
+        },
+
+        createCol: function(widgetCfg) {
+            var $col = $('<div class="col-12-12"></div>'),
+                block = (widgetCfg && widgetCfg.block) ? widgetCfg.block : this.createBlock(widgetCfg),
+                col;
+
+            $col.append(block.element);
+
+            col = $col.mozuCol().data('mozuCol');
+
+            block.col = col;
+
+            return col;
+        },
+
+        createRow: function(widgetCfg) {
+            var $row = $('<div class="grid grid-pad"></div>'),
+                col = this.createCol(widgetCfg),
+                row;
+
+            $row.append(col.element);
+
+            row = $row.mozuRow().data('mozuRow');
+
+            col.row = row;
+
+            return row;
         }
     };
 
@@ -180,7 +218,7 @@
 
         _onMouseover: function(e, ui) {
 
-        }
+        },
     });
 
     $.widget('custom.mozuRow', {
@@ -228,6 +266,38 @@
                 return quadrant;
             }
             return null;
+        },
+
+        insert: function(quadrant, block) {
+            var widgetCfg = {
+                block: block
+            },
+                row;
+
+            if (block && block.col) {
+                block.col.remove(block);
+            }
+
+            row = editor.createRow(widgetCfg);
+
+            row.grid = this.grid;
+
+            if (quadrant === 'top') {
+                row.element.insertBefore(this.element);
+            } else {
+                row.element.insertAfter(this.element);
+            }
+        },
+
+        rebase: function() {
+            var $cols = this.element.find('[class*="col-"]'),
+                ans = Math.floor(12 / $cols.length),
+                rem = 12 % $cols.length;
+
+            $cols.each(function(i, col) {
+                var width = ans + (rem-- > 0 ? 1 : 0);
+                $(col).attr('class', 'col-' + width + '-12');
+            });
         }
     });
 
@@ -312,6 +382,33 @@
             }
 
             return null;
+        },
+
+        insert: function(quadrant, block) {
+            var widgetCfg = {
+                block: block
+            },
+                col;
+
+            if (block && block.col) {
+                block.col.remove(block);
+            }
+
+            col = editor.createCol(widgetCfg);
+
+            col.row = this.row;
+
+            if (quadrant === 'left') {
+                col.element.insertBefore(this.element);
+            } else {
+                col.element.insertAfter(this.element);
+            }
+
+            this.row.rebase();
+        },
+
+        rebase: function() {
+
         }
     });
 
@@ -381,17 +478,14 @@
             this.offset().message = 'insert';
             y -= this.offset().top;
 
-            //console.log('x', x, 'height/2', Math.round(this.offset().height/2));
-
             this.offset().quadrant = (y <= this.offset().height / 2) ? 'top' : 'bottom';
 
             return this.offset();
         },
 
         insert: function(quadrant, block) {
-            //debugger;
             if (!block) {
-                block = this.createNew();
+                block = editor.createBlock();
             }
 
             if (block.col) {
@@ -405,15 +499,6 @@
             } else {
                 block.element.insertAfter(this.element);
             }
-        },
-
-        createNew: function () {
-            var $block = $('<div class="block"><div class="content"></div></div>');
-
-            // Insert widget content (for now, just doing text)
-            $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
-
-            return $block.mozuBlock().data('mozuBlock');
         }
     });
 

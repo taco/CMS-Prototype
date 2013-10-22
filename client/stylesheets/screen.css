@@ -193,7 +193,7 @@ body {
 
 /* Content Columns */
 /* line 209, ../sass/screen.scss */
-.col-1-1 {
+.col-1-1, .col-12-12 {
   width: 100%;
 }
 
