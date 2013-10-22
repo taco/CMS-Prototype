@@ -45,11 +45,20 @@
         },
 
         clearTarget: function(target) {
-
             // Only clear if a new target has NOT been set up yet
             if (this._target !== target) return;
 
             this._target = null;
+        },
+
+        drop: function() {
+            var target = this._hintTarget,
+                quadrant = this._hintQuadrant;
+
+            // Make sure there is a target and a quadrant
+            if (!target || !quadrant || !target.insert) return;
+
+            target.insert(quadrant);
         },
 
         _onMousemove: function(e, ui) {
@@ -78,9 +87,9 @@
                 y = data.top - 1;
 
             // If showing the same hint in the same location, abort hinting
-            if (this._hintElement === data.target && this._hintQuadrant === data.quadrant) return;
+            if (this._hintTarget === data.target && this._hintQuadrant === data.quadrant) return;
 
-            this._hintElement = data.target
+            this._hintTarget = data.target;
             this._hintQuadrant = data.quadrant;
 
             switch (data.quadrant) {
@@ -112,8 +121,6 @@
             }).find('.hint-message').html(data.message);
 
         },
-
-
 
         /**
          * Determines what quadrant the mouse is in
@@ -155,6 +162,8 @@
                 out: $.proxy(this._onOut, this),
                 drop: $.proxy(this._onDrop, this)
             });
+
+            this.isGrid = true;
         },
 
         _onOver: function(event, ui) {
@@ -166,7 +175,7 @@
         },
 
         _onDrop: function(event, ui) {
-            editor.stopDrag();
+            editor.drop();
         },
 
         _onMouseover: function(e, ui) {
@@ -178,42 +187,44 @@
         options: {
             grid: null
         },
+
         _create: function() {
-            
+
             this.cols = this.element.find('[class*="col-"]').mozuCol({
                 row: this
             });
+
+            this.isRow = true;
         },
 
-        offset: function () {
+        offset: function() {
             if (!this._offset) {
                 this._offset = this.element.offset();
                 this._offset.width = this.element.width();
                 this._offset.height = this.element.height();
-                this._offset.target = this.element;
+                this._offset.target = this;
             }
             return this._offset;
         },
+
         initHint: function() {
             this._offset = null;
         },
-        hint: function(x, y) {
 
+        hint: function(x, y) {
             this.offset().message = 'row';
-            //this.offset().quadrant = (y <= 10) ? 'top' : (y >= this.offset().height - 10) ? 'bottom' : null;
             this.offset().quadrant = this.quadrant(x, y);
-            
 
             return this.offset();
         },
-        quadrant: function (x, y) {
+
+        quadrant: function(x, y) {
             var quadrant = editor.quadrant(x, y, this.offset());
 
             x -= this.offset().left;
             y -= this.offset().top;
 
-            if ((quadrant === 'top' || quadrant === 'bottom')
-                    && (y <= cfg.rowHintMargin || y >= this.offset().height - cfg.rowHintMargin)) {
+            if ((quadrant === 'top' || quadrant === 'bottom') && (y <= cfg.rowHintMargin || y >= this.offset().height - cfg.rowHintMargin)) {
                 return quadrant;
             }
             return null;
@@ -236,6 +247,8 @@
             });
 
             this.row = this.options.row;
+
+            this.isCol = true;
         },
 
         _onOver: function(event, ui) {
@@ -262,12 +275,12 @@
             this._offset = null;
         },
 
-        offset: function () {
+        offset: function() {
             if (!this._offset) {
                 this._offset = this.element.offset();
                 this._offset.width = this.element.width();
                 this._offset.height = this.element.height();
-                this._offset.target = this.element;
+                this._offset.target = this;
             }
             return this._offset;
         },
@@ -285,7 +298,7 @@
             return this.offset();
         },
 
-        quadrant: function (x, y) {
+        quadrant: function(x, y) {
             var quadrant = editor.quadrant(x, y, this.offset()),
                 ratio = Math.round(this.offset().width * cfg.colHintRatio),
                 margin = ratio > cfg.colHintMargin ? ratio : cfg.colHintMargin;
@@ -294,8 +307,7 @@
             y -= this.offset().top;
 
             // Columns can only be inserted on left or right
-            if ((quadrant === 'left' || quadrant === 'right')
-                    && (x <= margin || x >= this.offset().width - margin)) {
+            if ((quadrant === 'left' || quadrant === 'right') && (x <= margin || x >= this.offset().width - margin)) {
                 return quadrant;
             }
 
@@ -323,27 +335,29 @@
                 over: $.proxy(this._onOver, this),
                 out: $.proxy(this._onOut, this)
             });
+
+            this.isBlock = true;
         },
 
-        _onOver: function (e, ui) {
+        _onOver: function(e, ui) {
             this.initHint();
         },
 
-        _onOut: function (e, ui) {
+        _onOut: function(e, ui) {
 
         },
 
-        offset: function () {
+        offset: function() {
             if (!this._offset) {
                 this._offset = this.element.offset();
                 this._offset.width = this.element.width();
                 this._offset.height = this.element.height();
-                this._offset.target = this.element;
+                this._offset.target = this;
             }
             return this._offset;
         },
 
-        initHint: function () {
+        initHint: function() {
             editor.target(this);
             this._offset = null;
             this.col.initHint();
@@ -362,7 +376,7 @@
                                         ? 'insert'
                                         : 'float';
             */
-           
+
 
             this.offset().message = 'insert';
             y -= this.offset().top;
@@ -372,6 +386,34 @@
             this.offset().quadrant = (y <= this.offset().height / 2) ? 'top' : 'bottom';
 
             return this.offset();
+        },
+
+        insert: function(quadrant, block) {
+            //debugger;
+            if (!block) {
+                block = this.createNew();
+            }
+
+            if (block.col) {
+                block.col.remove(block);
+            }
+
+            block.col = this.col;
+
+            if (quadrant === 'top') {
+                block.element.insertBefore(this.element);
+            } else {
+                block.element.insertAfter(this.element);
+            }
+        },
+
+        createNew: function () {
+            var $block = $('<div class="block"><div class="content"></div></div>');
+
+            // Insert widget content (for now, just doing text)
+            $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
+
+            return $block.mozuBlock().data('mozuBlock');
         }
     });
 
