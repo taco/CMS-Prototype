@@ -154,7 +154,7 @@
         },
 
         createCol: function(widgetCfg) {
-            var $col = $('<div class="col-12-12"></div>'),
+            var $col = $('<div class="col-12-12 dropped-col"></div>'),
                 block = (widgetCfg && widgetCfg.block) ? widgetCfg.block : this.createBlock(widgetCfg),
                 col;
 
@@ -290,13 +290,16 @@
         },
 
         rebase: function() {
+            //
             var $cols = this.element.find('[class*="col-"]'),
                 ans = Math.floor(12 / $cols.length),
                 rem = 12 % $cols.length;
 
             $cols.each(function(i, col) {
-                var width = ans + (rem-- > 0 ? 1 : 0);
-                $(col).attr('class', 'col-' + width + '-12');
+                var width = ans + (rem-- > 0 ? 1 : 0),
+                    dropped = $(col).attr('class').indexOf('dropped-col') > -1;
+
+                $(col).attr('class', 'col-' + width + '-12' + (dropped ? ' dropped-col' : ''));
             });
         }
     });
@@ -405,6 +408,10 @@
             }
 
             this.row.rebase();
+
+            setTimeout(function () {
+                col.element.removeClass('dropped-col');
+            }, 30);
         },
 
         rebase: function() {
