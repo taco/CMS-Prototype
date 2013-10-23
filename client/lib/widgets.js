@@ -28,7 +28,13 @@
             return this._dragging;
         },
 
-        startDrag: function() {
+        startDrag: function(widgetCfg) {
+            if (widgetCfg.isBlock) {
+                widgetCfg = {
+                    block: widgetCfg
+                };
+            }
+            this.widgetCfg = widgetCfg || {};
             $('.layout').addClass('droppable');
             this.dragging(true);
         },
@@ -55,10 +61,12 @@
             var target = this._hintTarget,
                 quadrant = this._hintQuadrant;
 
+            this.stopDrag();
+
             // Make sure there is a target and a quadrant
             if (!target || !quadrant || !target.insert) return;
 
-            target.insert(quadrant);
+            target.insert(quadrant, this.widgetCfg);
         },
 
         _onMousemove: function(e, ui) {
@@ -142,7 +150,6 @@
                 return (yMax * x >= (yMax - y) * xMax) ? 'bottom' : 'left';
             }
         },
-
 
         createBlock: function(widgetCfg) {
             var $block = $('<div class="block"><div class="content"></div></div>');
@@ -268,14 +275,12 @@
             return null;
         },
 
-        insert: function(quadrant, block) {
-            var widgetCfg = {
-                block: block
-            },
-                row;
+        insert: function(quadrant, widgetCfg) {
+            var block = widgetCfg.block,
+                oldCol;
 
             if (block && block.col) {
-                block.col.remove(block);
+                oldCol = block.col;
             }
 
             row = editor.createRow(widgetCfg);
@@ -288,16 +293,27 @@
                 row.element.insertAfter(this.element);
             }
 
-            setTimeout(function () {
+            setTimeout(function() {
                 row.element.find('.dropped-col').removeClass('dropped-col');
             }, 30);
+
+            if (oldCol) oldCol.rebase();
         },
 
         rebase: function() {
-            //
             var $cols = this.element.find('[class*="col-"]'),
-                ans = Math.floor(12 / $cols.length),
-                rem = 12 % $cols.length;
+                ans,
+                rem;
+
+            // If the ROW has no more COLS, remove the row
+            if ($cols.length === 0) {
+                this.element.remove();
+                this.grid = null;
+                return;
+            }
+
+            ans = Math.floor(12 / $cols.length);
+            rem = 12 % $cols.length;
 
             $cols.each(function(i, col) {
                 var width = ans + (rem-- > 0 ? 1 : 0),
@@ -305,6 +321,13 @@
 
                 $(col).attr('class', 'col-' + width + '-12' + (dropped ? ' dropped-col' : ''));
             });
+        },
+
+        remove: function(col) {
+            col.element.remove();
+            col.row = null;
+
+            this.rebase();
         }
     });
 
@@ -391,14 +414,13 @@
             return null;
         },
 
-        insert: function(quadrant, block) {
-            var widgetCfg = {
-                block: block
-            },
-                col;
+        insert: function(quadrant, widgetCfg) {
+            var block = widgetCfg.block,
+                col,
+                oldCol;
 
             if (block && block.col) {
-                block.col.remove(block);
+                oldCol = block.col;
             }
 
             col = editor.createCol(widgetCfg);
@@ -413,13 +435,19 @@
 
             this.row.rebase();
 
-            setTimeout(function () {
+            setTimeout(function() {
                 col.element.removeClass('dropped-col');
             }, 30);
+
+            if (oldCol) oldCol.rebase();
         },
 
         rebase: function() {
+            // Don't worry about it if there still are BLOCKS in the COL
+            if (this.element.find('.block').length) return;
 
+            // Remove the COL from the ROW since there are no blocks remaining
+            this.row.remove(this);
         }
     });
 
@@ -445,6 +473,25 @@
             });
 
             this.isBlock = true;
+
+            this.$handle = $('<div class="drag-handle"></div>')
+                .appendTo(this.element);
+
+            this.element.draggable({
+                handle: '.drag-handle',
+                cursor: 'move',
+                distance: 20,
+                cursorAt: {
+                    top: 15,
+                    left: 15
+                },
+                helper: function() {
+                    return $('<div class="dd-helper"></div>');
+                },
+                start: $.proxy(function() {
+                    editor.startDrag(this);
+                }, this)
+            });
         },
 
         _onOver: function(e, ui) {
@@ -494,14 +541,15 @@
             return this.offset();
         },
 
-        insert: function(quadrant, block) {
+        insert: function(quadrant, widgetCfg) {
+            var block = widgetCfg.block,
+                oldCol;
+
             if (!block) {
-                block = editor.createBlock();
+                block = editor.createBlock(widgetCfg);
             }
 
-            if (block.col) {
-                block.col.remove(block);
-            }
+            oldCol = block.col;
 
             block.col = this.col;
 
@@ -510,6 +558,8 @@
             } else {
                 block.element.insertAfter(this.element);
             }
+
+            oldCol.rebase();
         }
     });
 

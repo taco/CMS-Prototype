@@ -1,9 +1,3 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-
-//@import "compass/reset";
 @import "compass/css3";
 
 $hint-color: rgb(0, 117, 218);
@@ -46,13 +40,12 @@ $hint-color: rgb(0, 117, 218);
 }
 
 .droppable {
-    .block {
-        //border-color: transparentize($hint-color, 0.8) !important;
-        outline-color: transparentize($hint-color, 0.8) !important;
-    }
-
     .grid {
         outline-color: transparentize($hint-color, 0.8);
+
+        .block {
+            outline-color: transparentize($hint-color, 0.8) !important;
+        }
     }
 }
 
@@ -65,9 +58,6 @@ $hint-color: rgb(0, 117, 218);
 }
 
 .layout {
-    //border: 1px solid transparent;
-    //padding-bottom: 20px;
-    //padding-top: 20px;
     margin: 20px;
 
     [contenteditable="true"]:active,
@@ -92,29 +82,23 @@ $hint-color: rgb(0, 117, 218);
 }
 
 .grid {
-
     outline: 1px solid transparent;
     outline-offset: -1px;
     @include transition(outline-color 0.3s);
 
     .block {
-        outline: 1px solid transparent;
-        outline-offset: -1px;
-
-        @include transition(outline-color 0.3s);
         min-height: 14px;
         min-width: 80px;
-        // border-color: transparent;
-        // border-style: solid;
-        // border-width: 1px;
-        padding: 0;
+        outline: 1px solid transparent;
+        outline-offset: -1px;
         overflow: hidden;
+        position: relative;
+        padding: 0;
         word-wrap: break-word;
-        //@include transition(border-color 0.3s);
+        @include transition(outline-color 0.3s);
 
         &:hover {
             outline-color: #999;
-            //z-index: 10;
         }
     }
 
@@ -143,7 +127,16 @@ $hint-color: rgb(0, 117, 218);
             max-height: 100%;
             max-width: 100%;
         }      
-    }    
+    }
+
+    .drag-handle {
+        background: red;
+        height: 25px;
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        width: 25px;
+    }
 }
 
 
@@ -168,10 +161,9 @@ body {
 }
 
 [class*='col-'] {
-    @include transition(height 0.5s, width 0.5s ease-in);
-    max-height: 99999px;
     float: left;
-    //padding-right: 20px;
+    max-height: 99999px;
+    //@include transition(height 0.5s, width 0.5s ease-in);
 
     .content {
         padding-right: 20px;
@@ -196,11 +188,9 @@ body {
 }
 
 .grid-pad {
-    //padding-left: 20px;
 }
 
 .grid-pad > [class*='col-']:last-of-type {
-    //padding-right: 20px;
 }
 
 .push-right {
@@ -289,8 +279,6 @@ body {
 }
 
 @media handheld, only screen and (max-width: 767px) {
-
-    
     .grid {
         width: 100%;
         min-width: 0;
