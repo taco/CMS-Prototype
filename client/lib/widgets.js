@@ -42,7 +42,11 @@
         stopDrag: function() {
             $('.layout').removeClass('droppable');
             this.dragging(false);
-            this.$hintBar.hide();
+            this.$hintBar.css({
+                display: 'none',
+                left: -1000,
+                top: -1000
+            });
         },
 
         target: function(target) {
@@ -64,9 +68,14 @@
             this.stopDrag();
 
             // Make sure there is a target and a quadrant
-            if (!target || !quadrant || !target.insert) return;
+            if (target && quadrant && target.insert) {
+                target.insert(quadrant, this.widgetCfg);    
+            }
 
-            target.insert(quadrant, this.widgetCfg);
+            this._hintQuadrant = null;
+            this._hintTarget = null;
+
+            
         },
 
         _onMousemove: function(e, ui) {
@@ -157,7 +166,7 @@
             // Insert widget content (for now, just doing text)
             $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
 
-            return $block.mozuBlock().data('mozuBlock');
+            return $block.mzBlock().data('mzBlock');
         },
 
         createCol: function(widgetCfg) {
@@ -167,7 +176,7 @@
 
             $col.append(block.element);
 
-            col = $col.mozuCol().data('mozuCol');
+            col = $col.mzCol().data('mzCol');
 
             block.col = col;
 
@@ -181,7 +190,7 @@
 
             $row.append(col.element);
 
-            row = $row.mozuRow().data('mozuRow');
+            row = $row.mzRow().data('mzRow');
 
             col.row = row;
 
@@ -191,10 +200,10 @@
 
 
 
-    $.widget('custom.mozuGrid', {
+    $.widget('mozu.mzGrid', {
         options: {},
         _create: function() {
-            this.rows = this.element.find('.grid').mozuRow({
+            this.rows = this.element.find('.grid').mzRow({
                 grid: this
             });
 
@@ -228,14 +237,14 @@
         },
     });
 
-    $.widget('custom.mozuRow', {
+    $.widget('mozu.mzRow', {
         options: {
             grid: null
         },
 
         _create: function() {
 
-            this.cols = this.element.find('[class*="col-"]').mozuCol({
+            this.cols = this.element.find('[class*="col-"]').mzCol({
                 row: this
             });
 
@@ -331,12 +340,12 @@
         }
     });
 
-    $.widget('custom.mozuCol', {
+    $.widget('mozu.mzCol', {
         options: {
             row: null
         },
         _create: function() {
-            this.blocks = this.element.find('.block').mozuBlock({
+            this.blocks = this.element.find('.block').mzBlock({
                 col: this
             });
 
@@ -451,7 +460,7 @@
         }
     });
 
-    $.widget('custom.mozuBlock', {
+    $.widget('mozu.mzBlock', {
         options: {
             col: null
         },
@@ -459,13 +468,7 @@
         _create: function() {
             this.col = this.options.col;
 
-            this.element.find('.content.html').attr('contenteditable', 'true');
-
-            this.element.on({
-                mouseenter: function() {
-
-                }
-            });
+            this.$content = this.element.find('.content');
 
             this.element.droppable({
                 over: $.proxy(this._onOver, this),
@@ -492,6 +495,14 @@
                     editor.startDrag(this);
                 }, this)
             });
+
+            if (this.$content.hasClass('html')) {
+                this.element.mzText();
+            } else if (this.$content.hasClass('image')) {
+                this.element.mzImg();
+            } else {
+                this.element.mzContent();
+            }
         },
 
         _onOver: function(e, ui) {
@@ -559,11 +570,11 @@
                 block.element.insertAfter(this.element);
             }
 
-            oldCol.rebase();
+            if (oldCol) oldCol.rebase();
         }
     });
 
-    $.widget('custom.mozuWidget', {
+    $.widget('mozu.mzWidget', {
         options: {
             value: 0
         },

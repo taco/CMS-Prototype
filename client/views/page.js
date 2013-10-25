@@ -3,8 +3,8 @@
     $(doc).ready(function () {
 
          setTimeout(function () {
-            $('.layout').mozuGrid();
-            $('.widget').mozuWidget();   
+            $('.layout').mzGrid();
+            $('.widget').mzWidget();   
          }, 500);
     });
     

@@ -23,6 +23,6 @@ $(document).ready(function () {
 
 
 doIt = function() {
-    $('.widget').mozuWidget();
-    $('iframe')[0].contentWindow.$('.layout').mozuGrid();
+    $('.widget').mzWidget();
+    $('iframe')[0].contentWindow.$('.layout').mzGrid();
 }
