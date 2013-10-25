@@ -4,7 +4,7 @@
 
     var $doc = $(doc);
 
-    win.editor = {
+    win.mzEditor = {
         _dragging: false,
 
         init: function() {
@@ -12,7 +12,7 @@
             this.$hintBar = $('<div class="hint-bar"><div class="hint-message"></div></div>').appendTo('body');
 
             $doc.on({
-                mousemove: $.proxy(editor._onMousemove, editor)
+                mousemove: $.proxy(mzEditor._onMousemove, mzEditor)
             });
         },
 

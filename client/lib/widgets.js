@@ -3,7 +3,12 @@
     
     var $doc = $(doc),
         cfg,
-        editor;
+        mzEditor,
+        Component,
+        Grid,
+        Row,
+        Col,
+        Block;
 
     cfg = {
         rowHintMargin: 15,
@@ -12,8 +17,6 @@
     };
 
     
-
-
 
     $.widget('mozu.mzGrid', {
         options: {},
@@ -44,7 +47,7 @@
         },
 
         _onDrop: function(event, ui) {
-            editor.drop();
+            mzEditor.drop();
         },
 
         _onMouseover: function(e, ui) {
@@ -88,7 +91,7 @@
         },
 
         quadrant: function(x, y) {
-            var quadrant = editor.quadrant(x, y, this.offset());
+            var quadrant = mzEditor.quadrant(x, y, this.offset());
 
             x -= this.offset().left;
             y -= this.offset().top;
@@ -108,7 +111,7 @@
                 oldCol = block.col;
             }
 
-            row = editor.createRow(widgetCfg);
+            row = mzEditor.createRow(widgetCfg);
 
             row.grid = this.grid;
 
@@ -181,7 +184,7 @@
         },
 
         _onOut: function(event, ui) {
-            editor.clearTarget(this);
+            mzEditor.clearTarget(this);
             this._offset = null;
         },
 
@@ -193,7 +196,7 @@
 
         },
         initHint: function() {
-            //editor.target(this);
+            //mzEditor.target(this);
 
             this.row.initHint();
 
@@ -224,7 +227,7 @@
         },
 
         quadrant: function(x, y) {
-            var quadrant = editor.quadrant(x, y, this.offset()),
+            var quadrant = mzEditor.quadrant(x, y, this.offset()),
                 ratio = Math.round(this.offset().width * cfg.colHintRatio),
                 margin = ratio > cfg.colHintMargin ? ratio : cfg.colHintMargin;
 
@@ -248,7 +251,7 @@
                 oldCol = block.col;
             }
 
-            col = editor.createCol(widgetCfg);
+            col = mzEditor.createCol(widgetCfg);
 
             col.row = this.row;
 
@@ -308,7 +311,7 @@
                     return $('<div class="dd-helper"></div>');
                 },
                 start: $.proxy(function() {
-                    editor.startDrag(this);
+                    mzEditor.startDrag(this);
                 }, this)
             });
 
@@ -340,7 +343,7 @@
         },
 
         initHint: function() {
-            editor.target(this);
+            mzEditor.target(this);
             this._offset = null;
             this.col.initHint();
         },
@@ -352,7 +355,7 @@
             if (colOffset.quadrant) return colOffset;
 
             /* //   Code for FLOAT insertion
-                this.offset().quadrant = editor.quadrant(x, y, this.offset());
+                this.offset().quadrant = mzEditor.quadrant(x, y, this.offset());
 
                 this.offset().message = (this.offset().quadrant === 'top' || this.offset().quadrant === 'bottom')
                                         ? 'insert'
@@ -373,7 +376,7 @@
                 oldCol;
 
             if (!block) {
-                block = editor.createBlock(widgetCfg);
+                block = mzEditor.createBlock(widgetCfg);
             }
 
             oldCol = block.col;
@@ -407,16 +410,16 @@
                     helper: function() {
                         return $('<div class="dd-helper"></div>');
                     },
-                    start: $.proxy(editor.startDrag, editor),
-                    stop: $.proxy(editor.stopDrag, editor),
-                    drop: $.proxy(editor.stopDrag, editor)
+                    start: $.proxy(mzEditor.startDrag, mzEditor),
+                    stop: $.proxy(mzEditor.stopDrag, mzEditor),
+                    drop: $.proxy(mzEditor.stopDrag, mzEditor)
                 });
         }
     });
 
     $doc.ready(function() {
-        editor = win.editor;
-        editor.init();
+        mzEditor = win.mzEditor;
+        mzEditor.init();
     });
 
 

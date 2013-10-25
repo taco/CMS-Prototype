@@ -13,14 +13,28 @@
         old = $.fn[name];
 
         $.fn[name] = function(option) {
-            return this.each(function() {
+            var args = arguments,
+                ret,
+                retDefault;
+            
+            retDefault = this.each(function() {
                 var $this = $(this),
                     data = $this.data(pluginName),
-                    options = typeof option === 'object' && option;
+                    options = typeof option === 'object' && option,
+                    val;
 
                 if (!data) $this.data(pluginName, (data = new cls(this, options)));
-                if (typeof option === 'string') data[option]();
+                if (typeof option === 'string') val = data[option].apply(data, Array.prototype.slice.call(args, 1));
+
+                if (typeof val !== 'undefined' && val !== $this) {
+                    ret = val;
+                    return false;
+                }
             });
+
+            if (!ret) ret = retDefault;
+
+            return ret;
         }
 
         $.fn[name].noConflict = function() {
