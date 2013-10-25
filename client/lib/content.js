@@ -3,11 +3,8 @@
     'use strict';
 
     var Content,
-        oldContent,
         Text,
-        oldText,
-        Img,
-        oldImg;
+        Img;
 
     /**
      * CONTENT Class Definition
@@ -43,29 +40,6 @@
         console.log('_changeState Content')
     }
 
-    
-
-    /**
-     * CONTENT plugin definition
-     */
-    oldContent = $.fn.mzContent;
-
-    $.fn.mzContent = function (option) {
-        return this.each(function () {
-            var $this = $(this),
-                data = $this.data('mozu.mzContent'),
-                options = typeof option === 'object' && option;
-
-            if (!data) $this.data('mozu.mzContent', (data = new Content(this, options)));
-            if (typeof option === 'string') data[option]();
-        });
-    }
-
-    $.fn.mzContent.noConflict = function () {
-        $.fn.mzContent = oldContent;
-        return this;
-    }
-
 
     /**
      * TEXT class definition
@@ -80,32 +54,11 @@
         console.log('_changeState Text');
     }
 
-    /**
-     * TEXT plugin definition
-     */
-    oldText = $.fn.mzText;
-
-    $.fn.mzText = function (option) {
-        return this.each(function () {
-            var $this = $(this),
-                data = $this.data('mozu.mzText'),
-                options = typeof option === 'object' && option;
-
-            if (!data) $this.data('mozu.mzText', (data = new Text(this, options)));
-            if (typeof option === 'string') data[option]();
-        });
-    }
-
-    $.fn.mzText.noConflict = function () {
-        $.fn.mzText = oldText;
-        return this;
-    }
-
 
     /**
      * IMG class definition
      */
-    Img = function (element, options) {
+    Img = function(element, options) {
         Content.call(this, element, options);
     }
 
@@ -115,25 +68,9 @@
         console.log('_changeState Img');
     }
 
-    /**
-     * IMG plugin definition
-     */
-    oldImg = $.fn.mzImg;
-
-    $.fn.mzImg = function (option) {
-        return this.each(function () {
-            var $this = $(this),
-                data = $this.data('mozu.mzImg'),
-                options = typeof option === 'object' && option;
-
-            if (!data) $this.data('mozu.mzImg', (data = new Img(this, options)));
-            if (typeof option === 'string') data[option]();
-        });
-    }
-
-    $.fn.mzImg.noConflict = function () {
-        $.fn.mzImg = oldImg;
-        return this;
-    }
+    //  Plugin definitions
+    $.mzClassFactory(Text, 'mozu.mzText');
+    $.mzClassFactory(Img, 'mozu.mzImg');
+    $.mzClassFactory(Content, 'mozu.mzContent');
 
 }(jQuery, window, document));
