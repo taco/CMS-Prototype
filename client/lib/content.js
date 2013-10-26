@@ -2,9 +2,19 @@
 (function($, win, doc) {
     'use strict';
 
-    var Content,
+    var possibleStates,
+        Content,
         Text,
         Img;
+
+
+
+    possibleStates = [
+        'default',
+        'editing',
+        'selected',
+        'moving'
+    ];
 
     /**
      * CONTENT Class Definition
@@ -53,8 +63,9 @@
 
         if (this._state) state = this._state;
         else if (this.element.hasClass('default')) state = 'default';
-        else if (this.element.hasClass('moving')) state = 'moving';
         else if (this.element.hasClass('editing')) state = 'editing';
+        else if (this.element.hasClass('selected')) state = 'selected';
+        else if (this.element.hasClass('moving')) state = 'moving';
 
         this._state = state;
 
@@ -62,7 +73,7 @@
     }
 
     Content.prototype._setState = function(state) {
-        this.element.removeClass('default moving editing');
+        this.element.removeClass(possibleStates.join(' '));
 
         if (this['_' + state + 'State']) this['_' + state + 'State']();
 
