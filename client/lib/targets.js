@@ -296,6 +296,8 @@
         this._type = 'block';
         this.parent = options.parent;
 
+        this.$content = this.element.find('.content');
+
         this.element
             .on({
                 dragstart: $.proxy(function() {
@@ -307,7 +309,7 @@
             })
             .droppable()
             .draggable({
-                handle: '.drag-handle',
+                handle: this.$content.hasClass('html') ? '.drag-handle' : undefined,
                 cursor: 'move',
                 distance: 20,
                 cursorAt: {
@@ -319,13 +321,10 @@
                 }
             });
 
-        this.$handle = $('<div class="drag-handle"></div>')
-            .appendTo(this.element);
-
-        this.$content = this.element.find('.content');
-
         if (this.$content.hasClass('html')) {
             this.element.mzText();
+            this.$handle = $('<div class="drag-handle"></div>')
+                .appendTo(this.element);
         } else if (this.$content.hasClass('image')) {
             this.element.mzImg();
         } else {

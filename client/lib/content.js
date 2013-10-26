@@ -115,19 +115,18 @@
 
     Img.prototype = new Content();
    
-    Text.prototype._defaultState = function() {
+    Img.prototype._defaultState = function() {
         //this.$content.removeAttr('contenteditable');
         console.log('default');
     }
 
-    Text.prototype._editingState = function() {
-        debugger;
+    Img.prototype._editingState = function() {
         //his.$content.attr('contenteditable', 'true');
         this.element.focus();
         console.log('editing');
     }
 
-    Text.prototype._movingState = function() {
+    Img.prototype._movingState = function() {
 
     }
 

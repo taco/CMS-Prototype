@@ -108,11 +108,11 @@
   transition: outline-color 0.3s;
 }
 /* line 100, ../sass/screen.scss */
-.grid .block:hover {
+.grid .block.default:hover {
   outline-color: #999;
 }
 /* line 103, ../sass/screen.scss */
-.grid .block:hover .drag-handle {
+.grid .block.default:hover .drag-handle {
   opacity: 1;
 }
 /* line 109, ../sass/screen.scss */
@@ -140,8 +140,20 @@
   max-width: 100%;
 }
 /* line 136, ../sass/screen.scss */
+.grid .content.image .image-cover {
+  background-position: center center;
+  background-size: cover;
+  display: block;
+  min-height: 400px;
+  width: 100%;
+}
+/* line 146, ../sass/screen.scss */
 .grid .drag-handle {
-  background: red;
+  background-color: white;
+  background-image: url("/img/icon-move.svg");
+  background-size: contain;
+  border: 1px solid #aaa;
+  cursor: move;
   height: 25px;
   opacity: 0;
   position: absolute;
@@ -161,34 +173,29 @@
   Author - Dallas Bass
   Site - dallasbass.com
 */
-/* line 159, ../sass/screen.scss */
+/* line 171, ../sass/screen.scss */
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 165, ../sass/screen.scss */
+/* line 177, ../sass/screen.scss */
 body {
   margin: 0px;
 }
 
-/* line 169, ../sass/screen.scss */
+/* line 181, ../sass/screen.scss */
 [class*='col-'] {
   float: left;
   max-height: 99999px;
 }
-/* line 174, ../sass/screen.scss */
+/* line 186, ../sass/screen.scss */
 [class*='col-'] .content {
-  padding-right: 20px;
+  padding: 10px;
 }
 
-/* line 179, ../sass/screen.scss */
-[class*='col-']:last-of-type {
-  padding-right: 0px;
-}
-
-/* line 183, ../sass/screen.scss */
+/* line 195, ../sass/screen.scss */
 .grid {
   width: 100%;
   max-width: 1140px;
@@ -196,119 +203,119 @@ body {
   margin: 0 auto;
 }
 
-/* line 190, ../sass/screen.scss */
+/* line 202, ../sass/screen.scss */
 .grid:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 202, ../sass/screen.scss */
+/* line 214, ../sass/screen.scss */
 .push-right {
   float: right;
 }
 
 /* Content Columns */
-/* line 208, ../sass/screen.scss */
+/* line 220, ../sass/screen.scss */
 .dropped-col {
   width: 0% !important;
   height: 0 !important;
   word-break: normal !important;
 }
 
-/* line 214, ../sass/screen.scss */
+/* line 226, ../sass/screen.scss */
 .col-1-1, .col-12-12 {
   width: 100%;
 }
 
-/* line 217, ../sass/screen.scss */
+/* line 229, ../sass/screen.scss */
 .col-2-3, .col-8-12 {
   width: 66.66%;
 }
 
-/* line 221, ../sass/screen.scss */
+/* line 233, ../sass/screen.scss */
 .col-1-2, .col-6-12 {
   width: 50%;
 }
 
-/* line 225, ../sass/screen.scss */
+/* line 237, ../sass/screen.scss */
 .col-1-3, .col-4-12 {
   width: 33.33%;
 }
 
-/* line 229, ../sass/screen.scss */
+/* line 241, ../sass/screen.scss */
 .col-1-4, .col-3-12 {
   width: 25%;
 }
 
-/* line 233, ../sass/screen.scss */
+/* line 245, ../sass/screen.scss */
 .col-1-5 {
   width: 20%;
 }
 
-/* line 237, ../sass/screen.scss */
+/* line 249, ../sass/screen.scss */
 .col-1-6, .col-2-12 {
   width: 16.667%;
 }
 
-/* line 241, ../sass/screen.scss */
+/* line 253, ../sass/screen.scss */
 .col-1-7 {
   width: 14.28%;
 }
 
-/* line 245, ../sass/screen.scss */
+/* line 257, ../sass/screen.scss */
 .col-1-8 {
   width: 12.5%;
 }
 
-/* line 249, ../sass/screen.scss */
+/* line 261, ../sass/screen.scss */
 .col-1-9 {
   width: 11.1%;
 }
 
-/* line 253, ../sass/screen.scss */
+/* line 265, ../sass/screen.scss */
 .col-1-10 {
   width: 10%;
 }
 
-/* line 257, ../sass/screen.scss */
+/* line 269, ../sass/screen.scss */
 .col-1-11 {
   width: 9.09%;
 }
 
-/* line 261, ../sass/screen.scss */
+/* line 273, ../sass/screen.scss */
 .col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 267, ../sass/screen.scss */
+/* line 279, ../sass/screen.scss */
 .col-11-12 {
   width: 91.66%;
 }
 
-/* line 271, ../sass/screen.scss */
+/* line 283, ../sass/screen.scss */
 .col-10-12 {
   width: 83.333%;
 }
 
-/* line 275, ../sass/screen.scss */
+/* line 287, ../sass/screen.scss */
 .col-9-12 {
   width: 75%;
 }
 
-/* line 279, ../sass/screen.scss */
+/* line 291, ../sass/screen.scss */
 .col-5-12 {
   width: 41.66%;
 }
 
-/* line 283, ../sass/screen.scss */
+/* line 295, ../sass/screen.scss */
 .col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 288, ../sass/screen.scss */
+  /* line 300, ../sass/screen.scss */
   .grid {
     width: 100%;
     min-width: 0;
@@ -318,7 +325,7 @@ body {
     padding-right: 0px;
   }
 
-  /* line 297, ../sass/screen.scss */
+  /* line 309, ../sass/screen.scss */
   [class*='col-'] {
     width: auto;
     float: none;

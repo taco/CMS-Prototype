@@ -97,7 +97,7 @@ $hint-color: rgb(0, 117, 218);
         word-wrap: break-word;
         @include transition(outline-color 0.3s);
 
-        &:hover {
+        &.default:hover {
             outline-color: #999;
 
             .drag-handle {
@@ -130,11 +130,25 @@ $hint-color: rgb(0, 117, 218);
             margin: auto;
             max-height: 100%;
             max-width: 100%;
-        }      
+        }  
+
+        &.image {
+            .image-cover {
+                background-position: center center;
+                background-size: cover;
+                display: block;
+                min-height: 400px;
+                width: 100%;
+            }
+        }    
     }
 
     .drag-handle {
-        background: red;
+        background-color: white;
+        background-image: url('/img/icon-move.svg');
+        background-size: contain;
+        border: 1px solid #aaa;
+        cursor: move;
         height: 25px;
         opacity: 0;
         position: absolute;
@@ -144,8 +158,6 @@ $hint-color: rgb(0, 117, 218);
         @include transition(opacity 0.3s);
     }
 }
-
-
 
 
 /*
@@ -172,12 +184,12 @@ body {
     //@include transition(height 0.5s, width 0.5s ease-in);
 
     .content {
-        padding-right: 20px;
+        padding: 10px;
     }
 }
 
 [class*='col-']:last-of-type {
-    padding-right: 0px;
+    //padding-right: 0px;
 }
 
 .grid {
