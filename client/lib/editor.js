@@ -24,7 +24,6 @@
         },
 
         startDrag: function(widgetCfg) {
-            //debugger;
             if (widgetCfg && widgetCfg.type && widgetCfg.type() === 'block') {
                 widgetCfg = {
                     block: widgetCfg
@@ -65,13 +64,13 @@
 
             // Make sure there is a target and a quadrant
             if (target && quadrant && target.insert) {
-                target.insert(quadrant, this.widgetCfg);    
+                target.insert(quadrant, this.widgetCfg);
             }
 
             this._hintQuadrant = null;
             this._hintTarget = null;
 
-            
+
         },
 
         _onMousemove: function(e, ui) {
