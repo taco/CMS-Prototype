@@ -2,27 +2,39 @@
 (function($, win, doc) {
     'use strict';
 
-    var Target,
+    var cfg,
+        Target,
         Grid,
         Row,
         Col,
         Block;
 
-    
+    cfg = {
+        rowHintMargin: 15,
+        colHintMargin: 15,
+        colHintRatio: 0.25
+    };
+
+
+    //  GRID class
+
     Grid = function(element, options) {
         this.options = $.extend({}, Grid.DEFAULTS, options);
-        this.element = element;
+        this.element = $(element);
 
         this.element
             .on({
-                drop: function () { mzEditor.drop(); }
+                drop: function() {
+                    $.mozu.editor.drop();
+                }
             })
             .droppable()
             .find('.grid')
-                .mzRow({ grid: this });
+            .mzRow({
+                parent: this
+            });
 
         this.type('grid');
-
     }
 
     Grid.prototype.type = function(val) {
@@ -33,50 +45,353 @@
         return this._type;
     }
 
-    
-    Target = function (element, options) {
+
+    //  TARGET base class
+
+    Target = function(element, options) {
         this.options = $.extend({}, Target.DEFAULTS, options);
-        this.element = element;
+        this.element = $(element);
+    }
+
+    Target.prototype.type = function() {
+        return this._type;
     }
 
     Target.prototype.insert = function(quadrant, widgetCfg) {
+        var block = widgetCfg.block,
+            col,
+            target;
 
+        if (block && block.parent) {
+            col = block.parent;
+        }
+
+        target = this.create(widgetCfg);
+
+        target.parent = this.parent;
+
+        if (quadrant === 'top' || quadrant === 'left') {
+            target.element.insertBefore(this.element);
+        } else {
+            target.element.insertAfter(this.element);
+        }
+
+        if (this.parent.type() === 'row') this.parent.rebase();
+
+        if (col) col.rebase();
+    }
+
+    Target.prototype.offset = function(clear) {
+        if (clear) this._offset = null;
+
+        if (!this._offset) {
+            this._offset = this.element.offset();
+            this._offset.width = this.element.width();
+            this._offset.height = this.element.height();
+            this._offset.target = this;
+        }
+        return clear ? undefined : this._offset;
+    }
+
+    Target.prototype.create = function(widgetCfg) {
+        throw 'Must implement create function on Target';
     }
 
     Target.prototype.rebase = function() {
+        throw 'Must implement rebase function on Target';
+    }
+
+    Target.prototype.initHint = function() {
+        if (this.parent && this.parent.initHint) this.parent.initHint();
+        this.offset(true);
+    }
+
+    Target.prototype.hint = function(x, y) {
+        throw 'Must implement hint function on Target';
+    }
+
+    Target.prototype.quadrant = function(x, y) {
+        throw 'Must implement quadrant function on Target';
+    }
+
+    /**
+     * Determines what quadrant the mouse is in
+     * @return {string} 'top', 'right', 'bottom', or 'left'
+     */
+    Target.quadrant = function(x, y, offset) {
+        var xMax = offset.width,
+            yMax = offset.height;
+
+        x -= offset.left;
+        y -= offset.top;
+
+
+        if (yMax * x >= xMax * y) {
+            // TOP or RIGHT
+            return (xMax * y >= (xMax - x) * yMax) ? 'right' : 'top';
+        } else {
+            // BOTTOM or LEFT
+            return (yMax * x >= (yMax - y) * xMax) ? 'bottom' : 'left';
+        }
+    }
+
+
+    //  ROW class
+
+    Row = function(element, options) {
+        Target.call(this, element, options);
+
+        this._type = 'row';
+        this.parent = options.parent;
+
+        this.element
+            .find('[class*="col-"]')
+            .mzCol({
+                parent: this
+            });
+    }
+
+    Row.create = function(widgetCfg) {
+        var $row = $('<div class="grid grid-pad"></div>'),
+            col = Col.create(widgetCfg),
+            row;
+
+        $row.append(col.element);
+
+        row = $row.mzRow().data('mozu.mzRow');
+
+        col.parent = row;
+
+        return row;
+    }
+
+    Row.prototype = new Target();
+
+    Row.prototype.create = function(widgetCfg) {
+        return Row.create(widgetCfg);
+    }
+
+    Row.prototype.rebase = function() {
+        var $cols = this.element.find('[class*="col-"]'),
+            ans,
+            rem;
+
+        // If the ROW has no more COLS, remove the row
+        if ($cols.length === 0) {
+            this.element.remove();
+            this.parent = null;
+            return;
+        }
+
+        ans = Math.floor(12 / $cols.length);
+        rem = 12 % $cols.length;
+
+        $cols.each(function(i, col) {
+            var width = ans + (rem-- > 0 ? 1 : 0);
+
+            $(col).attr('class', 'col-' + width + '-12');
+        });
+    }
+
+    Row.prototype.hint = function(x, y) {
+        this.offset().message = 'row';
+        this.offset().quadrant = this.quadrant(x, y);
+
+        return this.offset();
+    }
+
+    Row.prototype.quadrant = function(x, y) {
+        var quadrant = Target.quadrant(x, y, this.offset());
+
+        x -= this.offset().left;
+        y -= this.offset().top;
+
+        if ((quadrant === 'top' || quadrant === 'bottom') && (y <= cfg.rowHintMargin || y >= this.offset().height - cfg.rowHintMargin)) {
+            return quadrant;
+        }
+        return;
+    }
+
+    //  COL class
+    Col = function(element, options) {
+        Target.call(this, element, options);
+
+        this._type = 'col';
+        this.parent = options.parent;
+
+        this.element
+            .droppable()
+            .find('.block')
+            .mzBlock({
+                parent: this
+            });
+    }
+
+    Col.create = function(widgetCfg) {
+        var $col = $('<div class="col-12-12"></div>'),
+            block = (widgetCfg && widgetCfg.block) ? widgetCfg.block : Block.create(widgetCfg),
+            col;
+
+        $col.append(block.element);
+
+        col = $col.mzCol().data('mozu.mzCol');
+
+        block.parent = col;
+
+        return col;
+    }
+
+    Col.prototype = new Target();
+
+    Col.prototype.create = function(widgetCfg) {
+        return Col.create(widgetCfg);
+    }
+
+    Col.prototype.rebase = function() {
+        // Don't worry about it if there still are BLOCKS in the COL
+        if (this.element.find('.block').length) return;
+
+        // Remove the COL from the ROW since there are no blocks remaining
+        //this.parent.remove(this);
+        this.element.remove();
+        this.parent.rebase();
+        this.parent = null;
 
     }
 
-    Target.prototype.remove = function() {
+    Col.prototype.hint = function(x, y) {
+        var rowOffset = this.parent.hint(x, y);
 
+        //  Prioritize ROW hinting over COL hinting
+        if (rowOffset.quadrant) return rowOffset;
+
+        this.offset().quadrant = this.quadrant(x, y);
+
+        this.offset().message = (this.offset().quadrant === 'left' || this.offset().quadrant === 'right') ? 'column' : 'insert';
+
+        return this.offset();
     }
 
-    Target.prototype.offset = function() {
+    Col.prototype.quadrant = function(x, y) {
+        var quadrant = Target.quadrant(x, y, this.offset()),
+            ratio = Math.round(this.offset().width * cfg.colHintRatio),
+            margin = ratio > cfg.colHintMargin ? ratio : cfg.colHintMargin;
 
+        x -= this.offset().left;
+        y -= this.offset().top;
+
+        // Columns can only be inserted on left or right
+        if ((quadrant === 'left' || quadrant === 'right') && (x <= margin || x >= this.offset().width - margin)) {
+            return quadrant;
+        }
+
+        return;
     }
 
-    Target.prototype.hint = function() {
 
+    //  BLOCK class
+    Block = function(element, options) {
+        Target.call(this, element, options);
+
+        this._type = 'block';
+        this.parent = options.parent;
+
+        this.element
+            .on({
+                dragstart: $.proxy(function() {
+                    $.mozu.editor.startDrag(this);
+                }, this),
+                dropover: $.proxy(function() {
+                    this.initHint();
+                }, this)
+            })
+            .droppable()
+            .draggable({
+                handle: '.drag-handle',
+                cursor: 'move',
+                distance: 20,
+                cursorAt: {
+                    top: 15,
+                    left: 15
+                },
+                helper: function() {
+                    return $('<div class="dd-helper"></div>');
+                }
+            });
+
+        this.$handle = $('<div class="drag-handle"></div>')
+            .appendTo(this.element);
+
+        this.$content = this.element.find('.content');
+
+        if (this.$content.hasClass('html')) {
+            this.element.mzText();
+        } else if (this.$content.hasClass('image')) {
+            this.element.mzImg();
+        } else {
+            this.element.mzContent();
+        }
     }
 
-    Target.prototype.quadrant = function() {
+    Block.create = function(widgetCfg) {
+        var $block;
 
+        if (widgetCfg.block) return widgetCfg.block;
+
+        $block = $('<div class="block"><div class="content"></div></div>');
+
+        // Insert widget content (for now, just doing text)
+        $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
+
+        return $block.mzBlock().data('mozu.mzBlock');
+    }
+
+    Block.prototype = new Target();
+
+    Block.prototype.create = function(widgetCfg) {
+        return Block.create(widgetCfg);
+    }
+
+    Block.prototype.initHint = function() {
+        $.mozu.editor.target(this);
+        Target.prototype.initHint.call(this);
+    }
+
+    Block.prototype.hint = function(x, y) {
+        var colOffset = this.parent.hint(x, y);
+
+        //  Prioritize COL hinting over BLOCK hinting
+        if (colOffset.quadrant) return colOffset;
+
+        /* //   Code for FLOAT insertion
+            this.offset().quadrant = $.mozu.editor.quadrant(x, y, this.offset());
+
+            this.offset().message = (this.offset().quadrant === 'top' || this.offset().quadrant === 'bottom')
+                                    ? 'insert'
+                                    : 'float';
+        */
+
+
+        this.offset().message = 'insert';
+
+        this.offset().quadrant = this.quadrant(x, y);
+
+        return this.offset();
+    }
+
+    Block.prototype.quadrant = function(x, y) {
+        y -= this.offset().top;
+
+        return (y <= this.offset().height / 2) ? 'top' : 'bottom';
     }
 
 
-    var Test = function () {
-        this.data = 'my-data';
-    }
 
-    Test.prototype.read = function() {
-        return this.data;
-    }
+    // Plugin definitions
 
-    Test.prototype.set = function(val) {
-        this.data = val;
-    }
-
-    $.mzClassFactory(Test, 'mozu.mzTest');
-
+    $.mozu.classFactory(Grid, 'mozu.mzGrid');
+    $.mozu.classFactory(Row, 'mozu.mzRow');
+    $.mozu.classFactory(Col, 'mozu.mzCol');
+    $.mozu.classFactory(Block, 'mozu.mzBlock');
 
 }(jQuery, window, document));

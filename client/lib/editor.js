@@ -4,7 +4,9 @@
 
     var $doc = $(doc);
 
-    win.mzEditor = {
+    if (!$.mozu) $.mozu = {};
+
+    $.mozu.editor = {
         _dragging: false,
 
         init: function() {
@@ -12,7 +14,7 @@
             this.$hintBar = $('<div class="hint-bar"><div class="hint-message"></div></div>').appendTo('body');
 
             $doc.on({
-                mousemove: $.proxy(mzEditor._onMousemove, mzEditor)
+                mousemove: $.proxy($.mozu.editor._onMousemove, $.mozu.editor)
             });
         },
 
@@ -22,7 +24,8 @@
         },
 
         startDrag: function(widgetCfg) {
-            if (widgetCfg.isBlock) {
+            //debugger;
+            if (widgetCfg && widgetCfg.type && widgetCfg.type() === 'block') {
                 widgetCfg = {
                     block: widgetCfg
                 };
@@ -130,65 +133,11 @@
                 display: 'block'
             }).find('.hint-message').html(data.message);
 
-        },
-
-        /**
-         * Determines what quadrant the mouse is in
-         * @return {string} 'top', 'right', 'bottom', or 'left'
-         */
-        quadrant: function(x, y, offset) {
-            var xMax = offset.width,
-                yMax = offset.height;
-
-            x -= offset.left;
-            y -= offset.top;
-
-
-            if (yMax * x >= xMax * y) {
-                // TOP or RIGHT
-                return (xMax * y >= (xMax - x) * yMax) ? 'right' : 'top';
-            } else {
-                // BOTTOM or LEFT
-                return (yMax * x >= (yMax - y) * xMax) ? 'bottom' : 'left';
-            }
-        },
-
-        createBlock: function(widgetCfg) {
-            var $block = $('<div class="block"><div class="content"></div></div>');
-
-            // Insert widget content (for now, just doing text)
-            $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
-
-            return $block.mzBlock().data('mzBlock');
-        },
-
-        createCol: function(widgetCfg) {
-            var $col = $('<div class="col-12-12 dropped-col"></div>'),
-                block = (widgetCfg && widgetCfg.block) ? widgetCfg.block : this.createBlock(widgetCfg),
-                col;
-
-            $col.append(block.element);
-
-            col = $col.mzCol().data('mzCol');
-
-            block.col = col;
-
-            return col;
-        },
-
-        createRow: function(widgetCfg) {
-            var $row = $('<div class="grid grid-pad"></div>'),
-                col = this.createCol(widgetCfg),
-                row;
-
-            $row.append(col.element);
-
-            row = $row.mzRow().data('mzRow');
-
-            col.row = row;
-
-            return row;
         }
     };
+
+    $doc.ready(function() {
+        $.mozu.editor.init();
+    });
 
 }(jQuery, window, document));

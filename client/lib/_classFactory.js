@@ -2,9 +2,9 @@
 (function($, win, doc) {
     'use strict';
 
-    var old = $.mzClassFactory;
+    if (!$.mozu) $.mozu = {};
 
-    $.mzClassFactory = function(cls, pluginName) {
+    $.mozu.classFactory = function(cls, pluginName) {
         var split = pluginName.split('.'),
             namespace = split[0],
             name = split[1],
@@ -14,10 +14,9 @@
 
         $.fn[name] = function(option) {
             var args = arguments,
-                ret,
-                retDefault;
+                ret;
             
-            retDefault = this.each(function() {
+            this.each(function() {
                 var $this = $(this),
                     data = $this.data(pluginName),
                     options = typeof option === 'object' && option,
@@ -32,19 +31,12 @@
                 }
             });
 
-            if (!ret) ret = retDefault;
-
-            return ret;
+            return ret || this;
         }
 
         $.fn[name].noConflict = function() {
             $.fn[name] = old;
             return this;
         }
-    }
-
-    $.mzClassFactory.noConflict = function() {
-        $.mzClassFactory = old;
-        return this;
     }
 }(jQuery, window, document))

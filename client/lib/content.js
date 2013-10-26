@@ -37,7 +37,7 @@
     }
 
     Content.prototype._changeState = function(state) {
-        console.log('_changeState Content')
+
     }
 
 
@@ -51,7 +51,7 @@
     Text.prototype = new Content();
 
     Text.prototype._changeState = function(state) {
-        console.log('_changeState Text');
+
     }
 
 
@@ -65,12 +65,12 @@
     Img.prototype = new Content();
 
     Img.prototype._changeState = function(state) {
-        console.log('_changeState Img');
+
     }
 
     //  Plugin definitions
-    $.mzClassFactory(Text, 'mozu.mzText');
-    $.mzClassFactory(Img, 'mozu.mzImg');
-    $.mzClassFactory(Content, 'mozu.mzContent');
+    $.mozu.classFactory(Text, 'mozu.mzText');
+    $.mozu.classFactory(Img, 'mozu.mzImg');
+    $.mozu.classFactory(Content, 'mozu.mzContent');
 
 }(jQuery, window, document));
