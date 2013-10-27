@@ -1,6 +1,7 @@
 @import "compass/css3";
 
 $hint-color: rgb(0, 117, 218);
+$duration: 200ms;
 
 .widgets {
     border: 1px solid black;
@@ -33,6 +34,7 @@ $hint-color: rgb(0, 117, 218);
     position: absolute;
     height: 50px;
     width: 50px;
+    z-index: 999999;
 }
 
 .bar {
@@ -87,7 +89,7 @@ $hint-color: rgb(0, 117, 218);
 .grid {
     outline: 1px solid transparent;
     outline-offset: -1px;
-    @include transition(outline-color 0.3s);
+    @include transition(outline-color $duration);
 
 
 
@@ -104,7 +106,7 @@ $hint-color: rgb(0, 117, 218);
         right: 12px;
         top: 12px;
         width: 25px;
-        @include transition(opacity 0.3s);
+        @include transition(opacity $duration);
     }
 
     .content {
@@ -138,7 +140,8 @@ $hint-color: rgb(0, 117, 218);
                 background-position: center center;
                 background-size: cover;
                 display: block;
-                min-height: 400px;
+                height: 400px;
+                min-height: 40px;
                 width: 100%;
             }
         }    
@@ -147,6 +150,7 @@ $hint-color: rgb(0, 117, 218);
 
 
     .block {
+        background-color: transparent;
         min-height: 14px;
         min-width: 80px;
         outline: 1px solid transparent;
@@ -155,7 +159,35 @@ $hint-color: rgb(0, 117, 218);
         position: relative;
         padding: 0;
         word-wrap: break-word;
-        @include transition(outline-color 0.3s);
+        @include transition(outline-color $duration, background-color $duration);
+
+
+        .resizer {
+            background-color: transparentize($hint-color, 0.97);
+            display: block;
+            height: 100%;
+            opacity: 0;
+            outline: 1px solid $hint-color;
+            outline-offset: -1;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: -1;
+            @include transition(opacity $duration);
+
+            .bottom {
+                background-color: $hint-color;
+                bottom: 7px;
+                cursor: ns-resize;
+                height: 7px;
+                left: 50%;
+                margin-left: -25px;
+                position: absolute;
+                width: 50px;
+                @include border-radius(5px);
+                @include box-shadow(0px 0px 5px #FFF);
+            }
+        }
 
         &.default {
             .image {
@@ -175,11 +207,18 @@ $hint-color: rgb(0, 117, 218);
         }
 
         &.editing {
+            background-color: transparentize($hint-color, 0.97);
             outline-color: $hint-color;
         }
 
         &.selected {
+            outline-color: $hint-color;
 
+            .resizer {
+                cursor: move;
+                opacity: 1;
+                z-index: 1;
+            }
         }
 
         &.moving {

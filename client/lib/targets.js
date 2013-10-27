@@ -29,7 +29,9 @@
                     $.mozu.editor.drop();
                 }
             })
-            .droppable()
+            .droppable({
+                accept: '.block, .widget'
+            })
             .find('.grid')
             .mzRow({
                 parent: this
@@ -308,7 +310,9 @@
                     this.initHint();
                 }, this)
             })
-            .droppable()
+            .droppable({
+                accept: '.block, .widget'
+            })
             .draggable({
                 handle: '.drag-handle',
                 cursor: 'move',
