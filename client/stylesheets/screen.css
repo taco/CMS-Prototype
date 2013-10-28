@@ -1,11 +1,11 @@
-/* line 5, ../sass/screen.scss */
+/* line 6, ../sass/screen.scss */
 .widgets {
   border: 1px solid black;
   position: fixed;
   right: 0;
   top: 0;
 }
-/* line 11, ../sass/screen.scss */
+/* line 12, ../sass/screen.scss */
 .widgets .widget {
   border: 1px solid black;
   background: white;
@@ -15,39 +15,40 @@
   text-align: center;
   width: 50px;
 }
-/* line 20, ../sass/screen.scss */
+/* line 21, ../sass/screen.scss */
 .widgets .widget.draggable {
   border-style: dashed;
 }
-/* line 25, ../sass/screen.scss */
+/* line 26, ../sass/screen.scss */
 .widgets:after {
   content: "";
   clear: both;
 }
 
-/* line 31, ../sass/screen.scss */
+/* line 32, ../sass/screen.scss */
 .dd-helper {
   background: black;
   position: absolute;
   height: 50px;
   width: 50px;
+  z-index: 999999;
 }
 
-/* line 38, ../sass/screen.scss */
+/* line 40, ../sass/screen.scss */
 .bar {
   background: red;
 }
 
-/* line 43, ../sass/screen.scss */
+/* line 45, ../sass/screen.scss */
 .droppable .grid {
   outline-color: rgba(0, 117, 218, 0.2);
 }
-/* line 46, ../sass/screen.scss */
+/* line 48, ../sass/screen.scss */
 .droppable .grid .block {
   outline-color: rgba(0, 117, 218, 0.2) !important;
 }
 
-/* line 52, ../sass/screen.scss */
+/* line 54, ../sass/screen.scss */
 .tmp {
   background: black;
   color: white;
@@ -56,25 +57,25 @@
   z-index: 100;
 }
 
-/* line 60, ../sass/screen.scss */
+/* line 62, ../sass/screen.scss */
 .layout {
   margin: 20px;
 }
-/* line 64, ../sass/screen.scss */
+/* line 66, ../sass/screen.scss */
 .layout [contenteditable="true"]:active,
 .layout [contenteditable="true"]:focus {
   border-color: transparent;
   outline: none;
 }
 
-/* line 70, ../sass/screen.scss */
+/* line 72, ../sass/screen.scss */
 .hint-bar {
   background: #0075da;
   position: absolute;
   z-index: 100;
 }
 
-/* line 76, ../sass/screen.scss */
+/* line 78, ../sass/screen.scss */
 .hint-message {
   background: #0075da;
   color: white;
@@ -83,17 +84,70 @@
   z-index: 101;
 }
 
-/* line 84, ../sass/screen.scss */
+/* line 89, ../sass/screen.scss */
 .grid {
   outline: 1px solid transparent;
   outline-offset: -1px;
-  -webkit-transition: outline-color 0.3s;
-  -moz-transition: outline-color 0.3s;
-  -o-transition: outline-color 0.3s;
-  transition: outline-color 0.3s;
+  -webkit-transition: outline-color 200ms;
+  -moz-transition: outline-color 200ms;
+  -o-transition: outline-color 200ms;
+  transition: outline-color 200ms;
 }
-/* line 89, ../sass/screen.scss */
+/* line 96, ../sass/screen.scss */
+.grid .text-drag-handle {
+  background-color: white;
+  background-image: url("/img/icon-move.svg");
+  background-size: contain;
+  border: 1px solid #aaa;
+  cursor: move;
+  display: none;
+  height: 25px;
+  opacity: 0;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 25px;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
+}
+/* line 112, ../sass/screen.scss */
+.grid .content {
+  padding: 5px;
+}
+/* line 114, ../sass/screen.scss */
+.grid .content *:first-child {
+  margin-top: 0;
+}
+/* line 118, ../sass/screen.scss */
+.grid .content h1, .grid .content h2, .grid .content h3, .grid .content p {
+  font-family: "helvetica";
+}
+/* line 122, ../sass/screen.scss */
+.grid .content h1 {
+  border-bottom: 1px solid #CCC;
+  color: #444;
+}
+/* line 131, ../sass/screen.scss */
+.grid .content.image img {
+  display: block;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+/* line 139, ../sass/screen.scss */
+.grid .content.image .image-cover {
+  background-position: center center;
+  background-size: cover;
+  display: block;
+  height: 400px;
+  min-height: 40px;
+  width: 100%;
+}
+/* line 152, ../sass/screen.scss */
 .grid .block {
+  background-color: transparent;
   min-height: 14px;
   min-width: 80px;
   outline: 1px solid transparent;
@@ -102,68 +156,81 @@
   position: relative;
   padding: 0;
   word-wrap: break-word;
-  -webkit-transition: outline-color 0.3s;
-  -moz-transition: outline-color 0.3s;
-  -o-transition: outline-color 0.3s;
-  transition: outline-color 0.3s;
+  -webkit-transition: outline-color 200ms, background-color 200ms;
+  -moz-transition: outline-color 200ms, background-color 200ms;
+  -o-transition: outline-color 200ms, background-color 200ms;
+  transition: outline-color 200ms, background-color 200ms;
 }
-/* line 100, ../sass/screen.scss */
+/* line 165, ../sass/screen.scss */
+.grid .block .resizer {
+  background-color: rgba(0, 117, 218, 0.03);
+  display: block;
+  height: 100%;
+  opacity: 0;
+  outline: 1px solid #0075da;
+  outline-offset: -1;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
+}
+/* line 178, ../sass/screen.scss */
+.grid .block .resizer .bottom {
+  background-color: #0075da;
+  bottom: 7px;
+  cursor: ns-resize;
+  height: 7px;
+  left: 50%;
+  margin-left: -25px;
+  position: absolute;
+  width: 50px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 5px white;
+  -moz-box-shadow: 0px 0px 5px white;
+  box-shadow: 0px 0px 5px white;
+}
+/* line 192, ../sass/screen.scss */
+.grid .block.default {
+  cursor: default;
+}
+/* line 195, ../sass/screen.scss */
+.grid .block.default .image {
+  cursor: move;
+}
+/* line 199, ../sass/screen.scss */
+.grid .block.default .text-drag-handle {
+  display: block;
+}
+/* line 203, ../sass/screen.scss */
 .grid .block.default:hover {
   outline-color: #999;
 }
-/* line 103, ../sass/screen.scss */
-.grid .block.default:hover .drag-handle {
+/* line 205, ../sass/screen.scss */
+.grid .block.default:hover .text-drag-handle {
   opacity: 1;
 }
-/* line 109, ../sass/screen.scss */
-.grid .content {
-  padding: 5px;
+/* line 211, ../sass/screen.scss */
+.grid .block.editing {
+  background-color: rgba(0, 117, 218, 0.03);
+  outline-color: #0075da;
 }
-/* line 111, ../sass/screen.scss */
-.grid .content *:first-child {
-  margin-top: 0;
+/* line 216, ../sass/screen.scss */
+.grid .block.selected {
+  outline-color: #0075da;
 }
-/* line 115, ../sass/screen.scss */
-.grid .content h1, .grid .content h2, .grid .content h3, .grid .content p {
-  font-family: "helvetica";
-}
-/* line 119, ../sass/screen.scss */
-.grid .content h1 {
-  border-bottom: 1px solid #CCC;
-  color: #444;
-}
-/* line 128, ../sass/screen.scss */
-.grid .content.image img {
-  display: block;
-  margin: auto;
-  max-height: 100%;
-  max-width: 100%;
-}
-/* line 136, ../sass/screen.scss */
-.grid .content.image .image-cover {
-  background-position: center center;
-  background-size: cover;
-  display: block;
-  min-height: 400px;
-  width: 100%;
-}
-/* line 146, ../sass/screen.scss */
-.grid .drag-handle {
-  background-color: white;
-  background-image: url("/img/icon-move.svg");
-  background-size: contain;
-  border: 1px solid #aaa;
+/* line 219, ../sass/screen.scss */
+.grid .block.selected .resizer {
   cursor: move;
-  height: 25px;
-  opacity: 0;
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  width: 25px;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  opacity: 1;
+  z-index: 1;
 }
 
 /*
@@ -173,31 +240,31 @@
   Author - Dallas Bass
   Site - dallasbass.com
 */
-/* line 171, ../sass/screen.scss */
+/* line 241, ../sass/screen.scss */
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 177, ../sass/screen.scss */
+/* line 247, ../sass/screen.scss */
 body {
   margin: 0px;
 }
 
-/* line 181, ../sass/screen.scss */
+/* line 251, ../sass/screen.scss */
 [class*='col-'] {
   float: left;
   max-height: 99999px;
   overflow: visible;
   position: relative;
 }
-/* line 187, ../sass/screen.scss */
+/* line 257, ../sass/screen.scss */
 [class*='col-'] .content {
   padding: 10px;
 }
-/* line 191, ../sass/screen.scss */
-[class*='col-'] .col-resizer {
+/* line 261, ../sass/screen.scss */
+[class*='col-'] .resizer-column {
   cursor: ew-resize;
   height: 100%;
   margin-right: -8px;
@@ -207,19 +274,28 @@ body {
   right: 0;
   top: 0;
   z-index: 1;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
 }
-/* line 202, ../sass/screen.scss */
-[class*='col-'] .col-resizer div {
+/* line 273, ../sass/screen.scss */
+[class*='col-'] .resizer-column div {
   background: #0075da;
   height: 100%;
   width: 1px;
 }
-/* line 208, ../sass/screen.scss */
-[class*='col-'] .col-resizer:hover {
+/* line 279, ../sass/screen.scss */
+[class*='col-'] .resizer-column:hover, [class*='col-'] .resizer-column.active {
   opacity: 1;
 }
 
-/* line 218, ../sass/screen.scss */
+/* line 285, ../sass/screen.scss */
+.grid > [class*='col-']:last-child .resizer-column {
+  display: none;
+}
+
+/* line 289, ../sass/screen.scss */
 .grid {
   width: 100%;
   max-width: 1140px;
@@ -227,119 +303,119 @@ body {
   margin: 0 auto;
 }
 
-/* line 225, ../sass/screen.scss */
+/* line 296, ../sass/screen.scss */
 .grid:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 237, ../sass/screen.scss */
+/* line 308, ../sass/screen.scss */
 .push-right {
   float: right;
 }
 
 /* Content Columns */
-/* line 243, ../sass/screen.scss */
+/* line 314, ../sass/screen.scss */
 .dropped-col {
   width: 0% !important;
   height: 0 !important;
   word-break: normal !important;
 }
 
-/* line 249, ../sass/screen.scss */
+/* line 320, ../sass/screen.scss */
 .col-1-1, .col-12-12 {
   width: 100%;
 }
 
-/* line 252, ../sass/screen.scss */
+/* line 323, ../sass/screen.scss */
 .col-2-3, .col-8-12 {
   width: 66.66%;
 }
 
-/* line 256, ../sass/screen.scss */
+/* line 327, ../sass/screen.scss */
 .col-1-2, .col-6-12 {
   width: 50%;
 }
 
-/* line 260, ../sass/screen.scss */
+/* line 331, ../sass/screen.scss */
 .col-1-3, .col-4-12 {
   width: 33.33%;
 }
 
-/* line 264, ../sass/screen.scss */
+/* line 335, ../sass/screen.scss */
 .col-1-4, .col-3-12 {
   width: 25%;
 }
 
-/* line 268, ../sass/screen.scss */
+/* line 339, ../sass/screen.scss */
 .col-1-5 {
   width: 20%;
 }
 
-/* line 272, ../sass/screen.scss */
+/* line 343, ../sass/screen.scss */
 .col-1-6, .col-2-12 {
   width: 16.667%;
 }
 
-/* line 276, ../sass/screen.scss */
+/* line 347, ../sass/screen.scss */
 .col-1-7 {
   width: 14.28%;
 }
 
-/* line 280, ../sass/screen.scss */
+/* line 351, ../sass/screen.scss */
 .col-1-8 {
   width: 12.5%;
 }
 
-/* line 284, ../sass/screen.scss */
+/* line 355, ../sass/screen.scss */
 .col-1-9 {
   width: 11.1%;
 }
 
-/* line 288, ../sass/screen.scss */
+/* line 359, ../sass/screen.scss */
 .col-1-10 {
   width: 10%;
 }
 
-/* line 292, ../sass/screen.scss */
+/* line 363, ../sass/screen.scss */
 .col-1-11 {
   width: 9.09%;
 }
 
-/* line 296, ../sass/screen.scss */
+/* line 367, ../sass/screen.scss */
 .col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 302, ../sass/screen.scss */
+/* line 373, ../sass/screen.scss */
 .col-11-12 {
   width: 91.66%;
 }
 
-/* line 306, ../sass/screen.scss */
+/* line 377, ../sass/screen.scss */
 .col-10-12 {
   width: 83.333%;
 }
 
-/* line 310, ../sass/screen.scss */
+/* line 381, ../sass/screen.scss */
 .col-9-12 {
   width: 75%;
 }
 
-/* line 314, ../sass/screen.scss */
+/* line 385, ../sass/screen.scss */
 .col-5-12 {
   width: 41.66%;
 }
 
-/* line 318, ../sass/screen.scss */
+/* line 389, ../sass/screen.scss */
 .col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 323, ../sass/screen.scss */
+  /* line 394, ../sass/screen.scss */
   .grid {
     width: 100%;
     min-width: 0;
@@ -349,7 +425,7 @@ body {
     padding-right: 0px;
   }
 
-  /* line 332, ../sass/screen.scss */
+  /* line 403, ../sass/screen.scss */
   [class*='col-'] {
     width: auto;
     float: none;

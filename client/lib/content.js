@@ -166,6 +166,7 @@
 
         this.$bottom = this.$resizer.find('.bottom')
             .draggable({
+                cursor: 'ns-resize',
                 helper: function() {
                     return $('<div>');
                 },
@@ -196,13 +197,11 @@
         this.height = this.$img.height();
 
         $doc.on('mousemove', this._moveHandler);
-        $('.body').css('cursor', 'ns-resize !important');
         $.mozu.editor.stopDrag();
     }
 
     Img.prototype._onStop = function(e, ui) {
         $doc.off('mousemove', this._moveHandler);
-        $('.body').css('cursor', 'default');
     }
 
     Img.prototype._onMousemove = function(e, ui) {

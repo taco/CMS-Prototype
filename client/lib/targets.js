@@ -2,7 +2,8 @@
 (function($, win, doc) {
     'use strict';
 
-    var cfg,
+    var $doc = $(doc),
+        cfg,
         states,
         Target,
         Grid,
@@ -215,6 +216,14 @@
         return;
     }
 
+    Row.prototype.resizeCol = function(col) {
+        var $next = col.element.next();
+
+        if ($next.length !== 1) return;
+
+
+    }
+
     //  COL class
     Col = function(element, options) {
         Target.call(this, element, options);
@@ -229,7 +238,16 @@
                 parent: this
             });
 
-        this.$resizer = $('<div class="col-resizer"><div></div></div>').appendTo(this.element);
+        this.$resizer = $('<div class="resizer-column"><div></div></div>')
+            .appendTo(this.element)
+            .draggable({
+                cursor: 'ew-resize',
+                helper: function() {
+                    return $('<div>');
+                },
+                start: $.proxy(this._onStart, this),
+                stop: $.proxy(this._onStop, this)
+            });
     }
 
     Col.create = function(widgetCfg) {
@@ -246,6 +264,18 @@
         return col;
     }
 
+    Col.parseSize = function(element) {
+        var match = element.attr('class').match(/col-\d{1,2}-\d{1,2}/),
+            split;
+
+        if (!match || !match[0]) {
+            throw 'Unable to parse Column size from class: ' + this.element.attr('class');
+            return;
+        }
+
+        return win.parseInt(match[0].split('-')[1]);
+    }
+
     Col.prototype = new Target();
 
     Col.prototype.create = function(widgetCfg) {
@@ -257,7 +287,6 @@
         if (this.element.find('.block').length) return;
 
         // Remove the COL from the ROW since there are no blocks remaining
-        //this.parent.remove(this);
         this.element.remove();
         this.parent.rebase();
         this.parent = null;
@@ -291,6 +320,46 @@
         }
 
         return;
+    }
+
+    Col.prototype._onStart = function(e, ui) {
+        this.$resizer.addClass('active');
+        this._moveHander = $.proxy(this._onMousemove, this);
+        this.offset = this.element.offset();
+        this.height = this.element.width();
+        this.gridWidth = this.parent.element.width() / 12;
+        this.size = Col.parseSize(this.element);
+
+        $doc.on('mousemove', this._moveHander);
+        $.mozu.editor.stopDrag();
+    }
+
+    Col.prototype._onStop = function(e, ui) {
+        this.$resizer.removeClass('active');
+        $doc.off('mousemove', this._moveHander);
+    }
+
+    Col.prototype._onMousemove = function(e, ui) {
+        var newWidth = $doc.scrollLeft() + e.clientX - this.offset.left,
+            newSize = Math.round(newWidth / this.gridWidth),
+            $next,
+            nextSize,
+            delta = newSize - this.size;
+
+        if (this.size === newSize || newSize < 1 || newSize > 11) return;
+
+        $next = this.element.next();
+
+        if ($next.length !== 1) return;
+
+        nextSize = Col.parseSize($next);
+
+        if (nextSize - delta < 1) return;
+
+        this.element.attr('class', 'col-' + newSize + '-12');
+        $next.attr('class', 'col-' + (nextSize - delta) + '-12');
+
+        this.size = newSize;
     }
 
 
