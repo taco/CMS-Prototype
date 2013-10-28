@@ -11,7 +11,7 @@
 
         init: function() {
 
-            this.$hintBar = $('<div class="hint-bar"><div class="hint-message"></div></div>').appendTo('body');
+            this.$hintBar = $('<div class="hint-bar" style="display:none;"><div class="hint-message"></div></div>').appendTo('body');
 
             $doc.on({
                 mousemove: $.proxy($.mozu.editor._onMousemove, $.mozu.editor)
@@ -69,8 +69,6 @@
 
             this._hintQuadrant = null;
             this._hintTarget = null;
-
-
         },
 
         _onMousemove: function(e, ui) {

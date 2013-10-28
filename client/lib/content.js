@@ -2,9 +2,46 @@
 (function($, win, doc) {
     'use strict';
 
-    var Content,
+    var $doc = $(doc),
+        possibleStates,
+        controller,
+        Content,
         Text,
         Img;
+
+
+
+    possibleStates = [
+        'default',
+        'editing',
+        'selected',
+        'moving'
+    ];
+
+    controller = {
+        init: function() {
+            $doc.on('click', $.proxy(this._onClick, this));
+            this._items = [];
+        },
+
+        register: function(element, selector, test, action) {
+            this._items.push({
+                element: element,
+                selector: selector,
+                test: test,
+                action: action
+            });
+        },
+
+        _onClick: function(e, ui) {
+            var $tar;
+            $.each(this._items, function(i, item) {
+                if (!item.test()) return;
+                $tar = $(e.target);
+                if ($tar.is(item.selector) || !$tar.parents(item.selector).length) item.action();
+            })
+        }
+    }
 
     /**
      * CONTENT Class Definition
@@ -24,6 +61,11 @@
      * Binds the appropriate EVENT map, will change the state
      * based on the previous state
      * @param  {object} map Event map
+     * Sample Map:  {
+     *                  'click': 'default > editing',
+     *                  'blur .content': 'editing selected > default'
+     *                  'clickaway .editor': '* > default'
+     *              }
      */
     Content.prototype.on = function(map) {
         var me = this;
@@ -36,11 +78,17 @@
                 eventName = eventSplit[0],
                 selector = eventSplit[1];
 
-
-
-            me.element.on(event, selector, function() {
-                if (me.state() === from) me.state(to);
-            })
+            if (eventName === 'clickaway') {
+                controller.register(me.element, selector, function() {
+                    return (from === '*' || from.indexOf(me.state()) > -1);
+                }, function() {
+                    me.state(to);
+                });
+            } else {
+                me.element.on(eventName, selector, function() {
+                    if (from === '*' || from.indexOf(me.state()) > -1) me.state(to);
+                });
+            }
         });
     }
 
@@ -53,8 +101,9 @@
 
         if (this._state) state = this._state;
         else if (this.element.hasClass('default')) state = 'default';
-        else if (this.element.hasClass('moving')) state = 'moving';
         else if (this.element.hasClass('editing')) state = 'editing';
+        else if (this.element.hasClass('selected')) state = 'selected';
+        else if (this.element.hasClass('moving')) state = 'moving';
 
         this._state = state;
 
@@ -62,7 +111,7 @@
     }
 
     Content.prototype._setState = function(state) {
-        this.element.removeClass('default moving editing');
+        this.element.removeClass(possibleStates.join(' '));
 
         if (this['_' + state + 'State']) this['_' + state + 'State']();
 
@@ -84,16 +133,14 @@
     }
 
     Text.prototype = new Content();
-   
+
     Text.prototype._defaultState = function() {
         this.$content.removeAttr('contenteditable');
-        console.log('default');
     }
 
     Text.prototype._editingState = function() {
         this.$content.attr('contenteditable', 'true');
         this.$content.focus();
-        console.log('editing');
     }
 
     Text.prototype._movingState = function() {
@@ -108,21 +155,34 @@
         Content.call(this, element, options);
 
         this.on({
+            'click': 'default > selected',
+            'clickaway .selected': 'selected > default',
             'dblclick': 'default > editing',
             'blur': 'editing > default'
         });
+
+        this.$resizer = $('<div class="resizer"><div class="bottom"></div></div>')
+            .appendTo(this.element);
+
+        this.$bottom = this.$resizer.find('.bottom')
+            .draggable({
+                helper: function() {
+                    return $('<div>');
+                },
+                start: $.proxy(this._onStart, this),
+                stop: $.proxy(this._onStop, this)
+            });
+
+        this.$img = this.element.find('.image-cover');
     }
 
     Img.prototype = new Content();
-   
+
     Img.prototype._defaultState = function() {
-        //this.$content.removeAttr('contenteditable');
         console.log('default');
     }
 
     Img.prototype._editingState = function() {
-        //his.$content.attr('contenteditable', 'true');
-        this.element.focus();
         console.log('editing');
     }
 
@@ -130,10 +190,33 @@
 
     }
 
+    Img.prototype._onStart = function(e, ui) {
+        this._moveHandler = $.proxy(this._onMousemove, this);
+        this.offset = this.$img.offset();
+        this.height = this.$img.height();
+
+        $doc.on('mousemove', this._moveHandler);
+        $('.body').css('cursor', 'ns-resize !important');
+        $.mozu.editor.stopDrag();
+    }
+
+    Img.prototype._onStop = function(e, ui) {
+        $doc.off('mousemove', this._moveHandler);
+        $('.body').css('cursor', 'default');
+    }
+
+    Img.prototype._onMousemove = function(e, ui) {
+        this.$img.height($doc.scrollTop() + e.clientY - this.offset.top);
+    }
+
 
     //  Plugin definitions
     $.mozu.classFactory(Text, 'mozu.mzText');
     $.mozu.classFactory(Img, 'mozu.mzImg');
     $.mozu.classFactory(Content, 'mozu.mzContent');
+
+    $doc.ready(function() {
+        controller.init();
+    })
 
 }(jQuery, window, document));

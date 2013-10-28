@@ -3,6 +3,7 @@
     'use strict';
 
     var cfg,
+        states,
         Target,
         Grid,
         Row,
@@ -28,7 +29,9 @@
                     $.mozu.editor.drop();
                 }
             })
-            .droppable()
+            .droppable({
+                accept: '.block, .widget'
+            })
             .find('.grid')
             .mzRow({
                 parent: this
@@ -93,17 +96,17 @@
         return clear ? undefined : this._offset;
     }
 
+    Target.prototype.initHint = function() {
+        if (this.parent && this.parent.initHint) this.parent.initHint();
+        this.offset(true);
+    }
+
     Target.prototype.create = function(widgetCfg) {
         throw 'Must implement create function on Target';
     }
 
     Target.prototype.rebase = function() {
         throw 'Must implement rebase function on Target';
-    }
-
-    Target.prototype.initHint = function() {
-        if (this.parent && this.parent.initHint) this.parent.initHint();
-        this.offset(true);
     }
 
     Target.prototype.hint = function(x, y) {
@@ -309,9 +312,11 @@
                     this.initHint();
                 }, this)
             })
-            .droppable()
+            .droppable({
+                accept: '.block, .widget'
+            })
             .draggable({
-                handle: this.$content.hasClass('html') ? '.drag-handle' : undefined,
+                handle: '.drag-handle',
                 cursor: 'move',
                 distance: 20,
                 cursorAt: {
@@ -324,13 +329,17 @@
             });
 
         if (this.$content.hasClass('html')) {
-            this.element.mzText();
-            this.$handle = $('<div class="drag-handle"></div>')
-                .appendTo(this.element);
+            this.element
+                .mzText()
+                .append($('<div class="drag-handle text-drag-handle"></div>'));
         } else if (this.$content.hasClass('image')) {
-            this.element.mzImg();
+            this.element
+                .mzImg()
+                .addClass('drag-handle');
         } else {
-            this.element.mzContent();
+            this.element
+                .mzContent()
+                .addClass('drag-handle');
         }
     }
 
