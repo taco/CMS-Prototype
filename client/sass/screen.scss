@@ -181,10 +181,33 @@ body {
 [class*='col-'] {
     float: left;
     max-height: 99999px;
-    //@include transition(height 0.5s, width 0.5s ease-in);
+    overflow: visible;
+    position: relative;
 
     .content {
         padding: 10px;
+    }
+
+    .col-resizer {
+        cursor: ew-resize;
+        height: 100%;
+        margin-right: -8px;
+        opacity: 0;
+        padding: 0 8px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+        
+        div {
+            background: $hint-color;
+            height: 100%;
+            width: 1px;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
     }
 }
 

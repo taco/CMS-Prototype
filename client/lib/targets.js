@@ -225,6 +225,8 @@
             .mzBlock({
                 parent: this
             });
+
+        this.$resizer = $('<div class="col-resizer"><div></div></div>').appendTo(this.element);
     }
 
     Col.create = function(widgetCfg) {

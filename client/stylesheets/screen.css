@@ -189,13 +189,37 @@ body {
 [class*='col-'] {
   float: left;
   max-height: 99999px;
+  overflow: visible;
+  position: relative;
 }
-/* line 186, ../sass/screen.scss */
+/* line 187, ../sass/screen.scss */
 [class*='col-'] .content {
   padding: 10px;
 }
+/* line 191, ../sass/screen.scss */
+[class*='col-'] .col-resizer {
+  cursor: ew-resize;
+  height: 100%;
+  margin-right: -8px;
+  opacity: 0;
+  padding: 0 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+/* line 202, ../sass/screen.scss */
+[class*='col-'] .col-resizer div {
+  background: #0075da;
+  height: 100%;
+  width: 1px;
+}
+/* line 208, ../sass/screen.scss */
+[class*='col-'] .col-resizer:hover {
+  opacity: 1;
+}
 
-/* line 195, ../sass/screen.scss */
+/* line 218, ../sass/screen.scss */
 .grid {
   width: 100%;
   max-width: 1140px;
@@ -203,119 +227,119 @@ body {
   margin: 0 auto;
 }
 
-/* line 202, ../sass/screen.scss */
+/* line 225, ../sass/screen.scss */
 .grid:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 214, ../sass/screen.scss */
+/* line 237, ../sass/screen.scss */
 .push-right {
   float: right;
 }
 
 /* Content Columns */
-/* line 220, ../sass/screen.scss */
+/* line 243, ../sass/screen.scss */
 .dropped-col {
   width: 0% !important;
   height: 0 !important;
   word-break: normal !important;
 }
 
-/* line 226, ../sass/screen.scss */
+/* line 249, ../sass/screen.scss */
 .col-1-1, .col-12-12 {
   width: 100%;
 }
 
-/* line 229, ../sass/screen.scss */
+/* line 252, ../sass/screen.scss */
 .col-2-3, .col-8-12 {
   width: 66.66%;
 }
 
-/* line 233, ../sass/screen.scss */
+/* line 256, ../sass/screen.scss */
 .col-1-2, .col-6-12 {
   width: 50%;
 }
 
-/* line 237, ../sass/screen.scss */
+/* line 260, ../sass/screen.scss */
 .col-1-3, .col-4-12 {
   width: 33.33%;
 }
 
-/* line 241, ../sass/screen.scss */
+/* line 264, ../sass/screen.scss */
 .col-1-4, .col-3-12 {
   width: 25%;
 }
 
-/* line 245, ../sass/screen.scss */
+/* line 268, ../sass/screen.scss */
 .col-1-5 {
   width: 20%;
 }
 
-/* line 249, ../sass/screen.scss */
+/* line 272, ../sass/screen.scss */
 .col-1-6, .col-2-12 {
   width: 16.667%;
 }
 
-/* line 253, ../sass/screen.scss */
+/* line 276, ../sass/screen.scss */
 .col-1-7 {
   width: 14.28%;
 }
 
-/* line 257, ../sass/screen.scss */
+/* line 280, ../sass/screen.scss */
 .col-1-8 {
   width: 12.5%;
 }
 
-/* line 261, ../sass/screen.scss */
+/* line 284, ../sass/screen.scss */
 .col-1-9 {
   width: 11.1%;
 }
 
-/* line 265, ../sass/screen.scss */
+/* line 288, ../sass/screen.scss */
 .col-1-10 {
   width: 10%;
 }
 
-/* line 269, ../sass/screen.scss */
+/* line 292, ../sass/screen.scss */
 .col-1-11 {
   width: 9.09%;
 }
 
-/* line 273, ../sass/screen.scss */
+/* line 296, ../sass/screen.scss */
 .col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 279, ../sass/screen.scss */
+/* line 302, ../sass/screen.scss */
 .col-11-12 {
   width: 91.66%;
 }
 
-/* line 283, ../sass/screen.scss */
+/* line 306, ../sass/screen.scss */
 .col-10-12 {
   width: 83.333%;
 }
 
-/* line 287, ../sass/screen.scss */
+/* line 310, ../sass/screen.scss */
 .col-9-12 {
   width: 75%;
 }
 
-/* line 291, ../sass/screen.scss */
+/* line 314, ../sass/screen.scss */
 .col-5-12 {
   width: 41.66%;
 }
 
-/* line 295, ../sass/screen.scss */
+/* line 318, ../sass/screen.scss */
 .col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 300, ../sass/screen.scss */
+  /* line 323, ../sass/screen.scss */
   .grid {
     width: 100%;
     min-width: 0;
@@ -325,7 +349,7 @@ body {
     padding-right: 0px;
   }
 
-  /* line 309, ../sass/screen.scss */
+  /* line 332, ../sass/screen.scss */
   [class*='col-'] {
     width: auto;
     float: none;
