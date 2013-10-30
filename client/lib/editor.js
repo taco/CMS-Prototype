@@ -32,10 +32,12 @@
             this.widgetCfg = widgetCfg || {};
             $('.layout').addClass('droppable');
             this.dragging(true);
+            this.cursor('move');
         },
 
         stopDrag: function() {
             $('.layout').removeClass('droppable');
+            this.cursor('auto');
             this.dragging(false);
             this.$hintBar.css({
                 display: 'none',
@@ -130,6 +132,11 @@
                 display: 'block'
             }).find('.hint-message').html(data.message);
 
+        },
+
+        cursor: function(val) {
+            if (val !== 'auto') val += ' important!';
+            $('body').css('cursor', val);
         }
     };
 

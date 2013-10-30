@@ -76,18 +76,28 @@
                 to = stateSplit[1].trim(),
                 eventSplit = event.split(' '),
                 eventName = eventSplit[0],
-                selector = eventSplit[1];
+                selector = eventSplit[1],
+                fromAnyEvent = from === '*';
 
+            switch(eventName) {
+                case 'clickaway':
+                    controller.register(me.element, selector, function() {
+                        return (fromAnyEvent || from.indexOf(me.state()) > -1);
+                    }, function() {
+                        me.state(to);
+                    });
+                    break;
+
+                default: 
+                    me.element.on(eventName, selector, function() {
+                        if (fromAnyEvent || from.indexOf(me.state()) > -1) me.state(to);
+                    });
+                    break;
+            }
             if (eventName === 'clickaway') {
-                controller.register(me.element, selector, function() {
-                    return (from === '*' || from.indexOf(me.state()) > -1);
-                }, function() {
-                    me.state(to);
-                });
+                
             } else {
-                me.element.on(eventName, selector, function() {
-                    if (from === '*' || from.indexOf(me.state()) > -1) me.state(to);
-                });
+                
             }
         });
     }
@@ -135,10 +145,12 @@
     Text.prototype = new Content();
 
     Text.prototype._defaultState = function() {
+        $.mozu.formatter.hide();
         this.$content.removeAttr('contenteditable');
     }
 
     Text.prototype._editingState = function() {
+        $.mozu.formatter.show();
         this.$content.attr('contenteditable', 'true');
         this.$content.focus();
     }
@@ -156,7 +168,7 @@
 
         this.on({
             'click': 'default > selected',
-            'clickaway .selected': 'selected > default',
+            'clickaway .selected .mz-ed-format-bar': 'selected > default',
             'dblclick': 'default > editing',
             'blur': 'editing > default'
         });
@@ -166,7 +178,6 @@
 
         this.$bottom = this.$resizer.find('.bottom')
             .draggable({
-                cursor: 'ns-resize',
                 helper: function() {
                     return $('<div>');
                 },
@@ -198,10 +209,12 @@
 
         $doc.on('mousemove', this._moveHandler);
         $.mozu.editor.stopDrag();
+        $.mozu.editor.cursor('ns-resize');
     }
 
     Img.prototype._onStop = function(e, ui) {
         $doc.off('mousemove', this._moveHandler);
+        $.mozu.editor.cursor('auto');
     }
 
     Img.prototype._onMousemove = function(e, ui) {

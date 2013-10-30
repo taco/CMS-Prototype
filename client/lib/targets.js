@@ -332,9 +332,11 @@
 
         $doc.on('mousemove', this._moveHander);
         $.mozu.editor.stopDrag();
+        $.mozu.editor.cursor('ew-resize');
     }
 
     Col.prototype._onStop = function(e, ui) {
+        $.mozu.editor.cursor('auto');
         this.$resizer.removeClass('active');
         $doc.off('mousemove', this._moveHander);
     }
@@ -386,7 +388,6 @@
             })
             .draggable({
                 handle: '.drag-handle',
-                cursor: 'move',
                 distance: 20,
                 cursorAt: {
                     top: 15,
