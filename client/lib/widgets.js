@@ -9,7 +9,7 @@
         this.element = $(element);
 
         this.element
-            .addClass('draggable')
+            .addClass('mz-cms-draggable')
             .draggable({
                 cursor: 'move',
                 distance: 20,
@@ -18,7 +18,7 @@
                     left: 15
                 },
                 helper: function() {
-                    return $('<div class="dd-helper"></div>');
+                    return $('<div>');
                 },
                 start: function() {
                     $.mozu.editor.startDrag();

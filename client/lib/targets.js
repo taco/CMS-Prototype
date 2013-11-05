@@ -31,9 +31,9 @@
                 }
             })
             .droppable({
-                accept: '.block, .widget'
+                accept: '.mz-cms-block, .mz-cms-widget'
             })
-            .find('.grid')
+            .find('.mz-cms-row')
             .mzRow({
                 parent: this
             });
@@ -47,6 +47,10 @@
             return this.element;
         }
         return this._type;
+    }
+
+    Grid.prototype.initHint = function() {
+        //$.mozu.editor.target(this);
     }
 
 
@@ -149,14 +153,14 @@
         this.parent = options.parent;
 
         this.element
-            .find('[class*="col-"]')
+            .find('[class*="mz-cms-col-"]')
             .mzCol({
                 parent: this
             });
     }
 
     Row.create = function(widgetCfg) {
-        var $row = $('<div class="grid grid-pad"></div>'),
+        var $row = $('<div class="mz-cms-row"></div>'),
             col = Col.create(widgetCfg),
             row;
 
@@ -176,7 +180,7 @@
     }
 
     Row.prototype.rebase = function() {
-        var $cols = this.element.find('[class*="col-"]'),
+        var $cols = this.element.find('[class*="mz-cms-col-"]'),
             ans,
             rem;
 
@@ -193,7 +197,7 @@
         $cols.each(function(i, col) {
             var width = ans + (rem-- > 0 ? 1 : 0);
 
-            $(col).attr('class', 'col-' + width + '-12');
+            $(col).attr('class', 'mz-cms-col-' + width + '-12');
         });
     }
 
@@ -233,7 +237,7 @@
 
         this.element
             .droppable()
-            .find('.block')
+            .find('.mz-cms-block')
             .mzBlock({
                 parent: this
             });
@@ -251,7 +255,7 @@
     }
 
     Col.create = function(widgetCfg) {
-        var $col = $('<div class="col-12-12"></div>'),
+        var $col = $('<div class="mz-cms-col-12-12"></div>'),
             block = (widgetCfg && widgetCfg.block) ? widgetCfg.block : Block.create(widgetCfg),
             col;
 
@@ -284,7 +288,7 @@
 
     Col.prototype.rebase = function() {
         // Don't worry about it if there still are BLOCKS in the COL
-        if (this.element.find('.block').length) return;
+        if (this.element.find('.mz-cms-block').length) return;
 
         // Remove the COL from the ROW since there are no blocks remaining
         this.element.remove();
@@ -358,8 +362,8 @@
 
         if (nextSize - delta < 1) return;
 
-        this.element.attr('class', 'col-' + newSize + '-12');
-        $next.attr('class', 'col-' + (nextSize - delta) + '-12');
+        this.element.attr('class', 'mz-cms-col-' + newSize + '-12');
+        $next.attr('class', 'mz-cms-col-' + (nextSize - delta) + '-12');
 
         this.size = newSize;
     }
@@ -372,7 +376,7 @@
         this._type = 'block';
         this.parent = options.parent;
 
-        this.$content = this.element.find('.content');
+        this.$content = this.element.find('.mz-cms-content');
 
         this.element
             .on({
@@ -384,10 +388,10 @@
                 }, this)
             })
             .droppable({
-                accept: '.block, .widget'
+                accept: '.mz-cms-block, .mz-cms-widget'
             })
             .draggable({
-                handle: '.drag-handle',
+                handle: '.mz-cms-drag-handle',
                 distance: 20,
                 cursorAt: {
                     top: 15,
@@ -401,15 +405,15 @@
         if (this.$content.hasClass('html')) {
             this.element
                 .mzText()
-                .append($('<div class="drag-handle text-drag-handle"></div>'));
-        } else if (this.$content.hasClass('image')) {
+                .append($('<div class="mz-cms-drag-handle mz-cms-text-drag-handle"></div>'));
+        } else if (this.$content.hasClass('mz-cms-image')) {
             this.element
                 .mzImg()
-                .addClass('drag-handle');
+                .addClass('mz-cms-drag-handle');
         } else {
             this.element
                 .mzContent()
-                .addClass('drag-handle');
+                .addClass('mz-cms-drag-handle');
         }
     }
 
@@ -418,10 +422,10 @@
 
         if (widgetCfg.block) return widgetCfg.block;
 
-        $block = $('<div class="block"><div class="content"></div></div>');
+        $block = $('<div class="mz-cms-block"><div class="mz-cms-content"></div></div>');
 
         // Insert widget content (for now, just doing text)
-        $block.find('.content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
+        $block.find('.mz-cms-content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
 
         return $block.mzBlock().data('mozu.mzBlock');
     }

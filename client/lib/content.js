@@ -3,6 +3,7 @@
     'use strict';
 
     var $doc = $(doc),
+        statePrefix = 'mz-cms-state-',
         possibleStates,
         controller,
         Content,
@@ -50,9 +51,9 @@
         this.options = $.extend({}, Content.DEFAULTS, options);
         this.element = $(element);
 
-        this.element.addClass('default');
+        this.state('default');
 
-        this.$content = this.element.find('.content');
+        this.$content = this.element.find('.mz-cms-content');
     }
 
     Content.DEFAULTS = {};
@@ -63,7 +64,7 @@
      * @param  {object} map Event map
      * Sample Map:  {
      *                  'click': 'default > editing',
-     *                  'blur .content': 'editing selected > default'
+     *                  'blur .mz-cms-content': 'editing selected > default'
      *                  'clickaway .editor': '* > default'
      *              }
      */
@@ -110,10 +111,10 @@
         var state;
 
         if (this._state) state = this._state;
-        else if (this.element.hasClass('default')) state = 'default';
-        else if (this.element.hasClass('editing')) state = 'editing';
-        else if (this.element.hasClass('selected')) state = 'selected';
-        else if (this.element.hasClass('moving')) state = 'moving';
+        else if (this.element.hasClass(statePrefix + 'default')) state = 'default';
+        else if (this.element.hasClass(statePrefix + 'editing')) state = 'editing';
+        else if (this.element.hasClass(statePrefix + 'selected')) state = 'selected';
+        else if (this.element.hasClass(statePrefix + 'moving')) state = 'moving';
 
         this._state = state;
 
@@ -121,11 +122,11 @@
     }
 
     Content.prototype._setState = function(state) {
-        this.element.removeClass(possibleStates.join(' '));
+        this.element.removeClass(statePrefix + possibleStates.join(' ' + statePrefix));
 
         if (this['_' + state + 'State']) this['_' + state + 'State']();
 
-        this.element.addClass(state);
+        this.element.addClass(statePrefix + state);
         this._state = state;
     }
 
@@ -138,7 +139,7 @@
 
         this.on({
             'click': 'default > editing',
-            'blur .content': 'editing > default'
+            'blur .mz-cms-content': 'editing > default'
         });
     }
 
@@ -168,15 +169,15 @@
 
         this.on({
             'click': 'default > selected',
-            'clickaway .selected .mz-ed-format-bar': 'selected > default',
+            //'clickaway .mz-cms-selected': 'selected > default',
             'dblclick': 'default > editing',
             'blur': 'editing > default'
         });
 
-        this.$resizer = $('<div class="resizer"><div class="bottom"></div></div>')
+        this.$resizer = $('<div class="mz-cms-resizer"><div class="mz-cms-bottom"></div></div>')
             .appendTo(this.element);
 
-        this.$bottom = this.$resizer.find('.bottom')
+        this.$bottom = this.$resizer.find('.mz-cms-bottom')
             .draggable({
                 helper: function() {
                     return $('<div>');

@@ -5,18 +5,22 @@
 </template>
 
 <template name="formatBar">
-    <ul id="formatBar" class="mz-ed-format-bar" style="">
-        <li class="mz-ed-styles">Styles</li>
-        <li data-role="bold"><i class="fa fa-bold"></i></li>
-        <li data-role="italic"><i class="fa fa-italic"></i></li>
-        <li data-role="underline"><i class="fa fa-underline"></i></li>
-        <li data-role="createLink"><i class="fa fa-link"></i></li>
-        <li data-role="justifyLeft"><i class="fa fa-align-left"></i></li>
-        <li data-role="justifyCenter"><i class="fa fa-align-center"></i></li>
-        <li data-role="justifyRight"><i class="fa fa-align-right"></i></li>
-        <li data-role="insertUnorderedList"><i class="fa fa-list-ul"></i></li>
-        <li data-role="insertOrderedList"><i class="fa fa-list-ol"></i></li>
-    </ul>
+    <div id="formatBar" class="mz-cms-format-bar">
+        <ul>
+            <li class="mz-cms-styles">Styles</li>
+            <li data-role="bold"><i class="fa fa-bold"></i></li>
+            <li data-role="italic"><i class="fa fa-italic"></i></li>
+            <li data-role="underline"><i class="fa fa-underline"></i></li>
+            <li data-role="createLink"><i class="fa fa-link"></i></li>
+            <li data-role="justifyLeft"><i class="fa fa-align-left"></i></li>
+            <li data-role="justifyCenter"><i class="fa fa-align-center"></i></li>
+            <li data-role="justifyRight"><i class="fa fa-align-right"></i></li>
+            <li data-role="insertUnorderedList"><i class="fa fa-list-ul"></i></li>
+            <li data-role="insertOrderedList"><i class="fa fa-list-ol"></i></li>
+            <li data-role="indent"><i class="fa fa-indent"></i></li>
+            <li data-role="outdent"><i class="fa fa-outdent"></i></li>
+        </ul>
+    </div>
 </template>
 
 
@@ -24,12 +28,12 @@
 <template name="grid">
     <div> <!-- style="width: 960px; border: 1px solid black;"> -->
     
-    <div class="layout">
-        <div class="grid grid-pad">
-            <div class="col-12-12">
-                <div class="block">
-                    <div class="content image">
-                        <div class="image-cover" style="background-image: url(http://i.imgur.com/QoobeDi.png)"></div>
+    <div class="mz-cms-grid mz-drop-zone">
+        <div class="mz-cms-row">
+            <div class="mz-cms-col-12-12">
+                <div class="mz-cms-block">
+                    <div class="mz-cms-content mz-cms-image">
+                        <div class="mz-cms-image-cover" style="background-image: url(http://i.imgur.com/QoobeDi.png)"></div>
                     </div>
                 </div>
                 
@@ -39,12 +43,12 @@
 
     <br><br><br><br><br><br><br><br>
 
-    <div class="layout">
-        <div class="grid grid-pad">
-            <div class="col-12-12">
-                <div class="block">
-                    <div class="content image">
-                        <div class="image-cover" style="background-image: url(http://i.imgur.com/MEt7jjH.jpg)"></div>
+    <div class="mz-cms-grid mz-drop-zone">
+        <div class="mz-cms-row">
+            <div class="mz-cms-col-12-12">
+                <div class="mz-cms-block">
+                    <div class="mz-cms-content mz-cms-image">
+                        <div class="mz-cms-image-cover" style="background-image: url(http://i.imgur.com/MEt7jjH.jpg)"></div>
                     </div>
                 </div>
                 
@@ -53,10 +57,10 @@
 
 
 
-        <div class="grid grid-pad">
-            <div class="col-12-12">
-                <div class="block">
-                <div class="content html">
+        <div class="mz-cms-row">
+            <div class="mz-cms-col-12-12">
+                <div class="mz-cms-block">
+                <div class="mz-cms-content html">
 
 
 <h1>Are you ready for the truth?</h1>
@@ -72,10 +76,10 @@
                 </div></div>
             </div>
         </div>
-        <div class="grid grid-pad">
-            <div class="col-5-12">
-                <div class="block">
-                <div class="content html">
+        <div class="mz-cms-row">
+            <div class="mz-cms-col-5-12">
+                <div class="mz-cms-block">
+                <div class="mz-cms-content html">
 
 <h1>Hold on to your butts</h1>
 <p>The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who would attempt to poison and destroy My brothers. And you will know My name is the Lord when I lay My vengeance upon thee. </p>
@@ -83,9 +87,9 @@
                 </div></div>
             </div>
 
-            <div class="col-7-12">
-                <div class="block dd-target">
-                <div class="content html">
+            <div class="mz-cms-col-7-12">
+                <div class="mz-cms-block dd-target">
+                <div class="mz-cms-content html">
                     <h1>We happy?</h1>
 <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p>
 
@@ -93,8 +97,8 @@
                 </div>
 
 
-                <div class="block dd-target">
-                <div class="content html">
+                <div class="mz-cms-block dd-target">
+                <div class="mz-cms-content html">
                 <h1>I took lessons</h1>
 <p>You see? It's curious. Ted did figure it out - time travel. And when we get back, we gonna tell everyone. How it's possible, how it's done, what the dangers are. But then why fifty years in the future when the spacecraft encounters a black hole does the computer call it an 'unknown entry event'? Why don't they know? If they don't know, that means we never told anyone. And if we never told anyone it means we never made it back. Hence we die down here. Just as a matter of deductive logic. </p>
                 </div>
@@ -103,19 +107,19 @@
         </div>
 
 
-        <div class="grid grid-pad">
-            <div class="col-7-12">
-                <div class="block">
-                    <div class="content image">
-                        <div class="image-cover" style="background-image: url(http://i.imgur.com/1halPOH.jpg)"></div>
+        <div class="mz-cms-row">
+            <div class="mz-cms-col-7-12">
+                <div class="mz-cms-block">
+                    <div class="mz-cms-content mz-cms-image">
+                        <div class="mz-cms-image-cover" style="background-image: url(http://i.imgur.com/1halPOH.jpg)"></div>
                     </div>
                 </div>
                 
             </div>
 
-            <div class="col-5-12">
-                <div class="block">
-                <div class="content html">
+            <div class="mz-cms-col-5-12">
+                <div class="mz-cms-block">
+                <div class="mz-cms-content html">
 
 <h1>No man, I don't eat pork</h1>
 <p>Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the brother talks. Motherfucker do that shit to me, he better paralyze my ass, 'cause I'll kill the motherfucker, know what I'm sayin'? </p>
@@ -126,10 +130,10 @@
                 </div></div>
             </div>
         </div>
-        <div class="grid grid-pad">
-            <div class="col-8-12">
-                <div class="block">
-                <div class="content html">
+        <div class="mz-cms-row">
+            <div class="mz-cms-col-8-12">
+                <div class="mz-cms-block">
+                <div class="mz-cms-content html">
 
 <h1>I'm serious as a heart attack</h1>
 <p>Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows. Some pilots get picked and become television programs. Some don't, become nothing. She starred in one of the ones that became nothing. </p>
@@ -137,9 +141,9 @@
                 </div></div>
             </div>
 
-            <div class="col-4-12">
-                <div class="block dd-target">
-                <div class="content html">
+            <div class="mz-cms-col-4-12">
+                <div class="mz-cms-block dd-target">
+                <div class="mz-cms-content html">
                     <h1>Uuummmm, this is a tasty burger!</h1>
 <p>Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows. Some pilots get picked and become television programs. Some don't, become nothing. She starred in one of the ones that became nothing. </p>
                 </div></div>
@@ -159,11 +163,11 @@
 
 <template name="widgets">
 
-    <div class="widgets">
+    <div class="mz-cms-widget-modal">
 
-        <div class="widget">Widget 1</div>
-        <div class="widget">Widget 2</div>
-        <div class="widget">Widget 3</div>
+        <div class="mz-cms-widget">Widget 1</div>
+        <div class="mz-cms-widget">Widget 2</div>
+        <div class="mz-cms-widget">Widget 3</div>
 
     </div>
 

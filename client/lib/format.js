@@ -10,14 +10,17 @@
         init: function(element) {
             this.element = $(element).addClass('mz-ed-format-bar');
 
-            this.element.find('li').on('mousedown', $.proxy(this._onClick, this));
+            this.element.on('mousedown', $.proxy(this._onClick, this));
 
             return this;
         },
 
         show: function() {
             win.clearTimeout(this._hideTimeout);
-            this.element.addClass('mz-ed-active');
+            this.element
+                //.css('width', this.element.width() / 2)
+                .addClass('mz-ed-active');
+
         },
 
         hide: function() {

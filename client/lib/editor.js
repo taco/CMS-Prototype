@@ -11,7 +11,7 @@
 
         init: function() {
 
-            this.$hintBar = $('<div class="hint-bar" style="display:none;"><div class="hint-message"></div></div>').appendTo('body');
+            this.$hintBar = $('<div class="mz-cms-hint-bar" style="display:none;"><div class="mz-cms-hint-message"></div></div>').appendTo('body');
 
             $doc.on({
                 mousemove: $.proxy($.mozu.editor._onMousemove, $.mozu.editor)
@@ -30,13 +30,13 @@
                 };
             }
             this.widgetCfg = widgetCfg || {};
-            $('.layout').addClass('droppable');
+            $('.mz-cms-grid').addClass('mz-cms-droppable');
             this.dragging(true);
             this.cursor('move');
         },
 
         stopDrag: function() {
-            $('.layout').removeClass('droppable');
+            $('.mz-cms-grid').removeClass('mz-cms-droppable');
             this.cursor('auto');
             this.dragging(false);
             this.$hintBar.css({
@@ -130,7 +130,7 @@
                 height: height,
                 width: width,
                 display: 'block'
-            }).find('.hint-message').html(data.message);
+            }).find('.mz-cms-hint-message').html(data.message);
 
         },
 
