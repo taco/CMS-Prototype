@@ -48,7 +48,6 @@
     background-image: url('/img/icon-move.svg');
     background-size: contain;
     border: 1px solid #aaa;
-    cursor: move;
     display: none;
     height: 25px;
     opacity: 0;
@@ -89,7 +88,7 @@
 .mz-cms-state-default {
     cursor: default;
 
-    .image {
+    &.mz-cms-drag-handle, .mz-cms-drag-handle {
         cursor: move;
     }
 

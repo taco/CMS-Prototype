@@ -137,8 +137,8 @@ h1 {
 .mz-cms-content *:first-child {
   margin-top: 0;
 }
-/* line 43, ../sass/_grid.scss */
-.mz-cms-content.mz-cms-image .mz-cms-image-cover {
+/* line 42, ../sass/_grid.scss */
+.mz-cms-content .mz-cms-image-cover {
   background-position: center center;
   background-size: cover;
   display: block;
@@ -147,18 +147,18 @@ h1 {
   width: 100%;
 }
 
-/* line 54, ../sass/_grid.scss */
+/* line 52, ../sass/_grid.scss */
 [class*='mz-cms-col-'] {
   float: left;
   max-height: 99999px;
   overflow: visible;
   position: relative;
 }
-/* line 60, ../sass/_grid.scss */
+/* line 58, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .mz-cms-content {
   padding: 10px;
 }
-/* line 64, ../sass/_grid.scss */
+/* line 62, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .resizer-column {
   cursor: ew-resize;
   height: 100%;
@@ -174,23 +174,23 @@ h1 {
   -o-transition: opacity 0.3s;
   transition: opacity 0.3s;
 }
-/* line 76, ../sass/_grid.scss */
+/* line 74, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .resizer-column div {
   background: #0075da;
   height: 100%;
   width: 1px;
 }
-/* line 82, ../sass/_grid.scss */
+/* line 80, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .resizer-column:hover, [class*='mz-cms-col-'] .resizer-column.active {
   opacity: 1;
 }
 
-/* line 88, ../sass/_grid.scss */
+/* line 86, ../sass/_grid.scss */
 .mz-cms-row > [class*='mz-cms-col-']:last-child .resizer-column {
   display: none;
 }
 
-/* line 92, ../sass/_grid.scss */
+/* line 90, ../sass/_grid.scss */
 .mz-cms-row {
   width: 100%;
   max-width: 1140px;
@@ -198,111 +198,111 @@ h1 {
   margin: 0 auto;
 }
 
-/* line 99, ../sass/_grid.scss */
+/* line 97, ../sass/_grid.scss */
 .mz-cms-row:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 105, ../sass/_grid.scss */
+/* line 103, ../sass/_grid.scss */
 .mz-cms-push-right {
   float: right;
 }
 
-/* line 109, ../sass/_grid.scss */
+/* line 107, ../sass/_grid.scss */
 .mz-cms-col-1-1, .mz-cms-col-12-12 {
   width: 100%;
 }
 
-/* line 112, ../sass/_grid.scss */
+/* line 110, ../sass/_grid.scss */
 .mz-cms-col-2-3, .mz-cms-col-8-12 {
   width: 66.66%;
 }
 
-/* line 116, ../sass/_grid.scss */
+/* line 114, ../sass/_grid.scss */
 .mz-cms-col-1-2, .mz-cms-col-6-12 {
   width: 50%;
 }
 
-/* line 120, ../sass/_grid.scss */
+/* line 118, ../sass/_grid.scss */
 .mz-cms-col-1-3, .mz-cms-col-4-12 {
   width: 33.33%;
 }
 
-/* line 124, ../sass/_grid.scss */
+/* line 122, ../sass/_grid.scss */
 .mz-cms-col-1-4, .mz-cms-col-3-12 {
   width: 25%;
 }
 
-/* line 128, ../sass/_grid.scss */
+/* line 126, ../sass/_grid.scss */
 .mz-cms-col-1-5 {
   width: 20%;
 }
 
-/* line 132, ../sass/_grid.scss */
+/* line 130, ../sass/_grid.scss */
 .mz-cms-col-1-6, .mz-cms-col-2-12 {
   width: 16.667%;
 }
 
-/* line 136, ../sass/_grid.scss */
+/* line 134, ../sass/_grid.scss */
 .mz-cms-col-1-7 {
   width: 14.28%;
 }
 
-/* line 140, ../sass/_grid.scss */
+/* line 138, ../sass/_grid.scss */
 .mz-cms-col-1-8 {
   width: 12.5%;
 }
 
-/* line 144, ../sass/_grid.scss */
+/* line 142, ../sass/_grid.scss */
 .mz-cms-col-1-9 {
   width: 11.1%;
 }
 
-/* line 148, ../sass/_grid.scss */
+/* line 146, ../sass/_grid.scss */
 .mz-cms-col-1-10 {
   width: 10%;
 }
 
-/* line 152, ../sass/_grid.scss */
+/* line 150, ../sass/_grid.scss */
 .mz-cms-col-1-11 {
   width: 9.09%;
 }
 
-/* line 156, ../sass/_grid.scss */
+/* line 154, ../sass/_grid.scss */
 .mz-cms-col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 162, ../sass/_grid.scss */
+/* line 160, ../sass/_grid.scss */
 .mz-cms-col-11-12 {
   width: 91.66%;
 }
 
-/* line 166, ../sass/_grid.scss */
+/* line 164, ../sass/_grid.scss */
 .mz-cms-col-10-12 {
   width: 83.333%;
 }
 
-/* line 170, ../sass/_grid.scss */
+/* line 168, ../sass/_grid.scss */
 .mz-cms-col-9-12 {
   width: 75%;
 }
 
-/* line 174, ../sass/_grid.scss */
+/* line 172, ../sass/_grid.scss */
 .mz-cms-col-5-12 {
   width: 41.66%;
 }
 
-/* line 178, ../sass/_grid.scss */
+/* line 176, ../sass/_grid.scss */
 .mz-cms-col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 183, ../sass/_grid.scss */
+  /* line 181, ../sass/_grid.scss */
   .mz-cms-row {
     width: 100%;
     min-width: 0;
@@ -312,7 +312,7 @@ h1 {
     padding-right: 0px;
   }
 
-  /* line 192, ../sass/_grid.scss */
+  /* line 190, ../sass/_grid.scss */
   [class*='mz-cms-col-'] {
     width: auto;
     float: none;
@@ -382,7 +382,6 @@ h1 {
   background-image: url("/img/icon-move.svg");
   background-size: contain;
   border: 1px solid #aaa;
-  cursor: move;
   display: none;
   height: 25px;
   opacity: 0;
@@ -396,7 +395,7 @@ h1 {
   transition: opacity 0.3s;
 }
 
-/* line 62, ../sass/_grid-edit.scss */
+/* line 61, ../sass/_grid-edit.scss */
 .mz-cms-resizer {
   background-color: rgba(0, 117, 218, 0.03);
   display: block;
@@ -413,7 +412,7 @@ h1 {
   -o-transition: opacity 0.3s;
   transition: opacity 0.3s;
 }
-/* line 75, ../sass/_grid-edit.scss */
+/* line 74, ../sass/_grid-edit.scss */
 .mz-cms-resizer .mz-cms-bottom {
   background-color: #0075da;
   bottom: 7px;
@@ -433,38 +432,38 @@ h1 {
   box-shadow: 0px 0px 5px white;
 }
 
-/* line 89, ../sass/_grid-edit.scss */
+/* line 88, ../sass/_grid-edit.scss */
 .mz-cms-state-default {
   cursor: default;
 }
-/* line 92, ../sass/_grid-edit.scss */
-.mz-cms-state-default .image {
+/* line 91, ../sass/_grid-edit.scss */
+.mz-cms-state-default.mz-cms-drag-handle, .mz-cms-state-default .mz-cms-drag-handle {
   cursor: move;
 }
-/* line 96, ../sass/_grid-edit.scss */
+/* line 95, ../sass/_grid-edit.scss */
 .mz-cms-state-default .mz-cms-text-drag-handle {
   display: block;
 }
-/* line 100, ../sass/_grid-edit.scss */
+/* line 99, ../sass/_grid-edit.scss */
 .mz-cms-state-default:hover {
   outline-color: #999;
 }
-/* line 102, ../sass/_grid-edit.scss */
+/* line 101, ../sass/_grid-edit.scss */
 .mz-cms-state-default:hover .mz-cms-text-drag-handle {
   opacity: 1;
 }
 
-/* line 108, ../sass/_grid-edit.scss */
+/* line 107, ../sass/_grid-edit.scss */
 .mz-cms-state-editing {
   background-color: rgba(0, 117, 218, 0.03);
   outline-color: #0075da;
 }
 
-/* line 113, ../sass/_grid-edit.scss */
+/* line 112, ../sass/_grid-edit.scss */
 .mz-cms-state-selected {
   outline-color: #0075da;
 }
-/* line 116, ../sass/_grid-edit.scss */
+/* line 115, ../sass/_grid-edit.scss */
 .mz-cms-state-selected .mz-cms-resizer {
   cursor: move;
   opacity: 1;

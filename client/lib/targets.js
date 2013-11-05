@@ -24,6 +24,9 @@
         this.options = $.extend({}, Grid.DEFAULTS, options);
         this.element = $(element);
 
+        this.dropZoneData = this.element.data('drop-zone');
+        this.span = this.dropZoneData.layout.span;
+
         this.element
             .on({
                 drop: function() {
@@ -159,9 +162,9 @@
             });
     }
 
-    Row.create = function(widgetCfg) {
+    Row.create = function(widgetCfg, gridSpan) {
         var $row = $('<div class="mz-cms-row"></div>'),
-            col = Col.create(widgetCfg),
+            col = Col.create(widgetCfg, gridSpan),
             row;
 
         $row.append(col.element);
@@ -176,11 +179,12 @@
     Row.prototype = new Target();
 
     Row.prototype.create = function(widgetCfg) {
-        return Row.create(widgetCfg);
+        return Row.create(widgetCfg, this.parent.span);
     }
 
     Row.prototype.rebase = function() {
         var $cols = this.element.find('[class*="mz-cms-col-"]'),
+            gridSpan = this.parent.span,
             ans,
             rem;
 
@@ -191,13 +195,13 @@
             return;
         }
 
-        ans = Math.floor(12 / $cols.length);
-        rem = 12 % $cols.length;
+        ans = Math.floor(gridSpan / $cols.length);
+        rem = gridSpan % $cols.length;
 
         $cols.each(function(i, col) {
             var width = ans + (rem-- > 0 ? 1 : 0);
 
-            $(col).attr('class', 'mz-cms-col-' + width + '-12');
+            $(col).attr('class', 'mz-cms-col-' + width + '-' + gridSpan);
         });
     }
 
@@ -254,8 +258,8 @@
             });
     }
 
-    Col.create = function(widgetCfg) {
-        var $col = $('<div class="mz-cms-col-12-12"></div>'),
+    Col.create = function(widgetCfg, gridSpan) {
+        var $col = $('<div class="mz-cms-col-' + gridSpan + '-' + gridSpan + '"></div>'),
             block = (widgetCfg && widgetCfg.block) ? widgetCfg.block : Block.create(widgetCfg),
             col;
 
@@ -283,7 +287,7 @@
     Col.prototype = new Target();
 
     Col.prototype.create = function(widgetCfg) {
-        return Col.create(widgetCfg);
+        return Col.create(widgetCfg, this.parent.parent.span);
     }
 
     Col.prototype.rebase = function() {
@@ -348,11 +352,12 @@
     Col.prototype._onMousemove = function(e, ui) {
         var newWidth = $doc.scrollLeft() + e.clientX - this.offset.left,
             newSize = Math.round(newWidth / this.gridWidth),
+            delta = newSize - this.size,
+            gridSpan = this.parent.parent.span,
             $next,
-            nextSize,
-            delta = newSize - this.size;
+            nextSize;
 
-        if (this.size === newSize || newSize < 1 || newSize > 11) return;
+        if (this.size === newSize || newSize < 1 || newSize > gridSpan - 1) return;
 
         $next = this.element.next();
 
@@ -362,8 +367,8 @@
 
         if (nextSize - delta < 1) return;
 
-        this.element.attr('class', 'mz-cms-col-' + newSize + '-12');
-        $next.attr('class', 'mz-cms-col-' + (nextSize - delta) + '-12');
+        this.element.attr('class', 'mz-cms-col-' + newSize + '-' + gridSpan);
+        $next.attr('class', 'mz-cms-col-' + (nextSize - delta) + '-' + gridSpan);
 
         this.size = newSize;
     }
@@ -377,6 +382,8 @@
         this.parent = options.parent;
 
         this.$content = this.element.find('.mz-cms-content');
+
+        this.widgetData = this.element.data('widget');
 
         this.element
             .on({
@@ -402,19 +409,22 @@
                 }
             });
 
-        if (this.$content.hasClass('html')) {
-            this.element
-                .mzText()
-                .append($('<div class="mz-cms-drag-handle mz-cms-text-drag-handle"></div>'));
-        } else if (this.$content.hasClass('mz-cms-image')) {
-            this.element
-                .mzImg()
-                .addClass('mz-cms-drag-handle');
+        if (this.widgetData.isRichText) {
+            this.element.mzText({isRichText: true});
         } else {
-            this.element
-                .mzContent()
-                .addClass('mz-cms-drag-handle');
+            this.element.mzContent({isRichText: false});
         }
+
+        // if (this.widgetData.isRichText) {
+        //     this.element.mzText()
+        // } else if (this.$content.hasClass('mz-cms-image')) {
+        //     this.element
+        //         .mzImg()
+        //         .addClass('mz-cms-drag-handle');
+        // } else {
+        //     this.element.mzContent()
+        //         .addClass('mz-cms-drag-handle');
+        // }
     }
 
     Block.create = function(widgetCfg) {
@@ -422,10 +432,10 @@
 
         if (widgetCfg.block) return widgetCfg.block;
 
-        $block = $('<div class="mz-cms-block"><div class="mz-cms-content"></div></div>');
+        $block = $('<div class="mz-cms-block" data-widget="{&quot;isRichText&quot;: true}"><div class="mz-cms-content"></div></div>');
 
         // Insert widget content (for now, just doing text)
-        $block.find('.mz-cms-content').addClass('html').html('<h1>Insert</h1><p>Click here to edit</p>');
+        $block.find('.mz-cms-content').html('<h1>Insert</h1><p>Click here to edit</p>');
 
         return $block.mzBlock().data('mozu.mzBlock');
     }

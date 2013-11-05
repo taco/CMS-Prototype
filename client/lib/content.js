@@ -54,6 +54,8 @@
         this.state('default');
 
         this.$content = this.element.find('.mz-cms-content');
+
+        if (!this.options.isRichText) this.element.addClass('mz-cms-drag-handle');
     }
 
     Content.DEFAULTS = {};
@@ -136,6 +138,10 @@
      */
     Text = function(element, options) {
         Content.call(this, element, options);
+
+        this.element
+            .attr('data-rich-text', 'true')
+            .append($('<div class="mz-cms-drag-handle mz-cms-text-drag-handle"></div>'));
 
         this.on({
             'click': 'default > editing',
