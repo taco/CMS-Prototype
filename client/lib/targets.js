@@ -412,7 +412,7 @@
         if (this.widgetData.isRichText) {
             this.element.mzText({isRichText: true});
         } else {
-            this.element.mzContent({isRichText: false});
+            this.element.mzImg({isRichText: false});
         }
 
         // if (this.widgetData.isRichText) {

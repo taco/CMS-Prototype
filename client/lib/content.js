@@ -35,11 +35,14 @@
         },
 
         _onClick: function(e, ui) {
+            
+
             var $tar;
             $.each(this._items, function(i, item) {
                 if (!item.test()) return;
+                
                 $tar = $(e.target);
-                if ($tar.is(item.selector) || !$tar.parents(item.selector).length) item.action();
+                if (!$tar.is(item.selector) && !$tar.parents(item.selector).length) item.action();
             })
         }
     }
@@ -188,7 +191,7 @@
 
         this.on({
             'click': 'default > selected',
-            //'clickaway .mz-cms-selected': 'selected > default',
+            'clickaway .mz-cms-state-selected': 'selected > default',
             'dblclick': 'default > editing',
             'blur': 'editing > default'
         });
@@ -204,8 +207,6 @@
                 start: $.proxy(this._onStart, this),
                 stop: $.proxy(this._onStop, this)
             });
-
-        this.$img = this.element.find('.image-cover');
     }
 
     Img.prototype = new Content();
@@ -224,8 +225,8 @@
 
     Img.prototype._onStart = function(e, ui) {
         this._moveHandler = $.proxy(this._onMousemove, this);
-        this.offset = this.$img.offset();
-        this.height = this.$img.height();
+        this.offset = this.$content.offset();
+        this.height = this.$content.height();
 
         $doc.on('mousemove', this._moveHandler);
         $.mozu.editor.stopDrag();
@@ -238,7 +239,7 @@
     }
 
     Img.prototype._onMousemove = function(e, ui) {
-        this.$img.height($doc.scrollTop() + e.clientY - this.offset.top);
+        this.$content.height($doc.scrollTop() + e.clientY - this.offset.top);
     }
 
 

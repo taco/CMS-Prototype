@@ -141,23 +141,22 @@ h1 {
   background-position: center center;
   background-size: cover;
   display: block;
-  height: 400px;
-  min-height: 40px;
+  height: 100%;
   width: 100%;
 }
 
-/* line 51, ../sass/_grid.scss */
+/* line 50, ../sass/_grid.scss */
 [class*='mz-cms-col-'] {
   float: left;
   max-height: 99999px;
   overflow: visible;
   position: relative;
 }
-/* line 57, ../sass/_grid.scss */
+/* line 56, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .mz-cms-content {
   padding: 10px;
 }
-/* line 61, ../sass/_grid.scss */
+/* line 60, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .resizer-column {
   cursor: ew-resize;
   height: 100%;
@@ -173,23 +172,23 @@ h1 {
   -o-transition: opacity 0.3s;
   transition: opacity 0.3s;
 }
-/* line 73, ../sass/_grid.scss */
+/* line 72, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .resizer-column div {
   background: #2960d3;
   height: 100%;
   width: 1px;
 }
-/* line 79, ../sass/_grid.scss */
+/* line 78, ../sass/_grid.scss */
 [class*='mz-cms-col-'] .resizer-column:hover, [class*='mz-cms-col-'] .resizer-column.active {
   opacity: 1;
 }
 
-/* line 85, ../sass/_grid.scss */
+/* line 84, ../sass/_grid.scss */
 .mz-cms-row > [class*='mz-cms-col-']:last-child .resizer-column {
   display: none;
 }
 
-/* line 89, ../sass/_grid.scss */
+/* line 88, ../sass/_grid.scss */
 .mz-cms-row {
   width: 100%;
   max-width: 1140px;
@@ -197,111 +196,111 @@ h1 {
   margin: 0 auto;
 }
 
-/* line 96, ../sass/_grid.scss */
+/* line 95, ../sass/_grid.scss */
 .mz-cms-row:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 102, ../sass/_grid.scss */
+/* line 101, ../sass/_grid.scss */
 .mz-cms-push-right {
   float: right;
 }
 
-/* line 106, ../sass/_grid.scss */
+/* line 105, ../sass/_grid.scss */
 .mz-cms-col-1-1, .mz-cms-col-12-12 {
   width: 100%;
 }
 
-/* line 109, ../sass/_grid.scss */
+/* line 108, ../sass/_grid.scss */
 .mz-cms-col-2-3, .mz-cms-col-8-12 {
   width: 66.66%;
 }
 
-/* line 113, ../sass/_grid.scss */
+/* line 112, ../sass/_grid.scss */
 .mz-cms-col-1-2, .mz-cms-col-6-12 {
   width: 50%;
 }
 
-/* line 117, ../sass/_grid.scss */
+/* line 116, ../sass/_grid.scss */
 .mz-cms-col-1-3, .mz-cms-col-4-12 {
   width: 33.33%;
 }
 
-/* line 121, ../sass/_grid.scss */
+/* line 120, ../sass/_grid.scss */
 .mz-cms-col-1-4, .mz-cms-col-3-12 {
   width: 25%;
 }
 
-/* line 125, ../sass/_grid.scss */
+/* line 124, ../sass/_grid.scss */
 .mz-cms-col-1-5 {
   width: 20%;
 }
 
-/* line 129, ../sass/_grid.scss */
+/* line 128, ../sass/_grid.scss */
 .mz-cms-col-1-6, .mz-cms-col-2-12 {
   width: 16.667%;
 }
 
-/* line 133, ../sass/_grid.scss */
+/* line 132, ../sass/_grid.scss */
 .mz-cms-col-1-7 {
   width: 14.28%;
 }
 
-/* line 137, ../sass/_grid.scss */
+/* line 136, ../sass/_grid.scss */
 .mz-cms-col-1-8 {
   width: 12.5%;
 }
 
-/* line 141, ../sass/_grid.scss */
+/* line 140, ../sass/_grid.scss */
 .mz-cms-col-1-9 {
   width: 11.1%;
 }
 
-/* line 145, ../sass/_grid.scss */
+/* line 144, ../sass/_grid.scss */
 .mz-cms-col-1-10 {
   width: 10%;
 }
 
-/* line 149, ../sass/_grid.scss */
+/* line 148, ../sass/_grid.scss */
 .mz-cms-col-1-11 {
   width: 9.09%;
 }
 
-/* line 153, ../sass/_grid.scss */
+/* line 152, ../sass/_grid.scss */
 .mz-cms-col-1-12 {
   width: 8.33%;
 }
 
 /* Layout Columns */
-/* line 159, ../sass/_grid.scss */
+/* line 158, ../sass/_grid.scss */
 .mz-cms-col-11-12 {
   width: 91.66%;
 }
 
-/* line 163, ../sass/_grid.scss */
+/* line 162, ../sass/_grid.scss */
 .mz-cms-col-10-12 {
   width: 83.333%;
 }
 
-/* line 167, ../sass/_grid.scss */
+/* line 166, ../sass/_grid.scss */
 .mz-cms-col-9-12 {
   width: 75%;
 }
 
-/* line 171, ../sass/_grid.scss */
+/* line 170, ../sass/_grid.scss */
 .mz-cms-col-5-12 {
   width: 41.66%;
 }
 
-/* line 175, ../sass/_grid.scss */
+/* line 174, ../sass/_grid.scss */
 .mz-cms-col-7-12 {
   width: 58.33%;
 }
 
 @media handheld, only screen and (max-width: 767px) {
-  /* line 180, ../sass/_grid.scss */
+  /* line 179, ../sass/_grid.scss */
   .mz-cms-row {
     width: 100%;
     min-width: 0;
@@ -311,7 +310,7 @@ h1 {
     padding-right: 0px;
   }
 
-  /* line 189, ../sass/_grid.scss */
+  /* line 188, ../sass/_grid.scss */
   [class*='mz-cms-col-'] {
     width: auto;
     float: none;
