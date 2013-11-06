@@ -58,6 +58,14 @@
             this._target = null;
         },
 
+        showDropZones: function() {
+            $('.mz-cms-grid').addClass('mz-cms-show-zone');
+        },
+
+        hideDropZones: function() {
+            $('.mz-cms-grid').removeClass('mz-cms-show-zone');
+        },
+
         drop: function() {
             var target = this._hintTarget,
                 quadrant = this._hintQuadrant;

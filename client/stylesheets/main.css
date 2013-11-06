@@ -448,7 +448,7 @@ h1 {
 }
 /* line 108, ../sass/_grid-edit.scss */
 .mz-cms-state-default:hover {
-  outline: 2px solid #323232;
+  outline: 2px solid #323232 !important;
 }
 /* line 110, ../sass/_grid-edit.scss */
 .mz-cms-state-default:hover .mz-cms-tools {
@@ -471,7 +471,6 @@ h1 {
 }
 /* line 128, ../sass/_grid-edit.scss */
 .mz-cms-state-selected .mz-cms-resizer {
-  cursor: move;
   opacity: 1;
   z-index: 1;
 }
