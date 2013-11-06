@@ -18,13 +18,37 @@
     @include transition(outline-color $duration, background-color $duration);
 }
 
-.mz-cms-droppable {
+.mz-cms-droppable, .mz-cms-show-zone {
     .mz-cms-row {
-        outline-color: transparentize($hint-color, 0.8);
+        outline-color: $hint-block-color;
+        outline-style: dashed;
     }
 
     .mz-cms-block {
-        outline-color: transparentize($hint-color, 0.8) !important;
+        outline-color: $hint-block-color !important;
+        outline-style: dashed;
+    }
+}
+
+.mz-cms-tools {
+    background: $hint-block-hover-color;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: -40px;
+    right: -1px;
+
+    //@include transition(opacity $duration);
+
+    li {
+        color: white;
+        display: inline-block;
+        font-size: 14px;
+        height: 40px;
+        text-align: center;
+        width: 40px;
+        padding-top: 10px;
     }
 }
 
@@ -41,21 +65,6 @@
     padding: 5px;
     position: absolute;
     z-index: 101;
-}
-
-.mz-cms-text-drag-handle {
-    background-color: white;
-    background-image: url('/img/icon-move.svg');
-    background-size: contain;
-    border: 1px solid #aaa;
-    display: none;
-    height: 25px;
-    opacity: 0;
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    width: 25px;
-    @include transition(opacity $duration);
 }
 
 .mz-cms-resizer {
@@ -97,8 +106,8 @@
     }
 
     &:hover {
-        outline-color: #999;
-        .mz-cms-text-drag-handle {
+        outline: 2px solid $hint-block-hover-color;
+        .mz-cms-tools {
             opacity: 1;
         }
     }
@@ -107,6 +116,10 @@
 .mz-cms-state-editing {
     background-color: transparentize($hint-color, 0.97);
     outline-color: $hint-color;
+
+    .mz-cms-tools {
+        display: none;
+    }
 }
 
 .mz-cms-state-selected {

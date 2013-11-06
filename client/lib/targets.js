@@ -479,6 +479,11 @@
         return (y <= this.offset().height / 2) ? 'top' : 'bottom';
     }
 
+    Block.prototype.remove = function () {
+        this.element.remove();
+        this.parent.rebase();
+    }
+
 
 
     // Plugin definitions

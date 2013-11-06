@@ -55,7 +55,16 @@
 
         this.$content = this.element.find('.mz-cms-content');
 
-        if (!this.options.isRichText) this.element.addClass('mz-cms-drag-handle');
+        //if (!this.options.isRichText) this.element.addClass('mz-cms-drag-handle');
+
+        this.element
+            .append($('<ul class="mz-cms-tools"><li class="mz-cms-drag-handle"></li><li class="mz-cms-trash"></li></ul>'));
+
+        this.$drag = this.element.find('.mz-cms-drag-handle')
+                            .html('<i class="fa fa-arrows fa-lg"></i>')
+        this.$trash = this.element.find('.mz-cms-trash')
+                            .html('<i class="fa fa-trash-o fa-lg"></i>')
+                            .on('click', $.proxy(this.remove, this));
     }
 
     Content.DEFAULTS = {};
@@ -105,6 +114,10 @@
         });
     }
 
+    Content.prototype.remove = function() {
+        this.element.mzBlock('remove');
+    }
+
     Content.prototype.state = function(state) {
         return (state) ? this._setState(state) : this._getState();
     }
@@ -141,7 +154,7 @@
 
         this.element
             .attr('data-rich-text', 'true')
-            .append($('<div class="mz-cms-drag-handle mz-cms-text-drag-handle"></div>'));
+            //.append($('<div class="mz-cms-drag-handle mz-cms-text-drag-handle"></div>'));
 
         this.on({
             'click': 'default > editing',
