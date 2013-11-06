@@ -8,7 +8,7 @@
 
     bar = {
         init: function(element) {
-            this.element = $(element).addClass('mz-ed-format-bar');
+            this.element = $(element).addClass('mz-cms-format-bar');
 
             this.element.on('mousedown', $.proxy(this._onClick, this));
 
@@ -19,12 +19,12 @@
             win.clearTimeout(this._hideTimeout);
             this.element
                 //.css('width', this.element.width() / 2)
-                .addClass('mz-ed-active');
+                .addClass('mz-cms-active');
 
         },
 
         hide: function() {
-            var proxy = $.proxy(function() {this.element.removeClass('mz-ed-active')}, this);
+            var proxy = $.proxy(function() {this.element.removeClass('mz-cms-active')}, this);
             this._hideTimeout = win.setTimeout(proxy, 150);
         },
 
