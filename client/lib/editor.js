@@ -11,7 +11,7 @@
 
         init: function() {
 
-            this.$hintBar = $('<div class="mz-cms-hint-bar" style="display:none;"><div class="mz-cms-hint-message"></div></div>').appendTo('body');
+            this.$hintBar = $('<div class="mz-cms-hint-bar" style="display:none"><div class="mz-cms-hint-message"></div></div>').appendTo('body');
 
             $doc.on({
                 mousemove: $.proxy($.mozu.editor._onMousemove, $.mozu.editor)
@@ -138,7 +138,14 @@
                 height: height,
                 width: width,
                 display: 'block'
-            }).find('.mz-cms-hint-message').html(data.message);
+            }).removeClass('mz-cms-upright')
+              .find('.mz-cms-hint-message')
+              .html(data.message);
+
+
+            if (data.quadrant === 'left' || data.quadrant === 'right') {
+                this.$hintBar.addClass('mz-cms-upright');
+            }
 
         },
 
