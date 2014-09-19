@@ -1,4 +1,8 @@
-# Mozu - CMS Builder
+# CMS Prototype
+
+## Demo
+
+http://obscure-tundra-3709.herokuapp.com/
 
 ## Installation
 
